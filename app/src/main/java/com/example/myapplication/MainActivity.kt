@@ -76,10 +76,6 @@ data class TopFilm(
     val imDbRatingCount: Int
 )
 
-
-
-
-
 //        val jsonStr = """
 //    {
 //        "id": "",
