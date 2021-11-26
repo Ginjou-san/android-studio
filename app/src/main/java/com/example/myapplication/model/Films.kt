@@ -1,10 +1,10 @@
 package com.example.myapplication.model
 
-data class Movie(
+data class Films (
     val id: String,
     val rank: Int,
     val title: String,
-    val FullTitle: String,
+    val fullTitle: String,
     val year: Int,
     val image: String,
     val crew: String,
