@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="id_text">id: </string>
+    <string name="rank_text">rank: </string>
+    <string name="title_text">title:    </string>
+    <string name="fullTitle_text">fullTitle: </string>
+    <string name="year_text">year: </string>
+    <string name="crew_text">crew: </string>
+    <string name="imDbRating_text">imDbRating: </string>
+    <string name="imDbRatingCounttext">imDbRatingCounttext: </string>
+
 </resources>

@@ -1,6 +1,4 @@
 package com.example.myapplication.adapter
-
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -26,27 +24,22 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
         private val crew: TextView = itemView.findViewById(R.id.crew)
         private val imDbRating:TextView = itemView.findViewById(R.id.imDbRating)
         private val imDbRatingCount: TextView = itemView.findViewById(R.id.imDbRatingCount)
-        private val test1 = R.string.id_text
-
-
-
-
 
         fun bind(listItem:Films){
             Glide.with(image.context).load(listItem.image).into (image)
-            id.text = ( "$test1" + listItem.id)
-            rank.text = ("rank: " + listItem.rank.toString())
-            title.text = ("title: " + listItem.title)
-            fullTitle.text = ("fullTitle: " + listItem.fullTitle)
-            year.text = ("year: " +  listItem.year.toString())
-            crew.text = ( "crew: " + listItem.crew)
-            imDbRating.text = ( "imDbRating: " +  listItem.imDbRating.toString())
-            imDbRatingCount.text = ( "imDbRatingCount: " + listItem.imDbRatingCount.toString())
+            id.text = ( id.context.getString(R.string.id_text)+ listItem.id)
+            rank.text = (id.context.getString(R.string.rank_text) + listItem.rank.toString())
+            title.text = (id.context.getString(R.string.title_text) + listItem.title)
+            fullTitle.text = (id.context.getString(R.string.fullTitle_text) + listItem.fullTitle)
+            year.text = (id.context.getString(R.string.year_text) +  listItem.year.toString())
+            crew.text = ( id.context.getString(R.string.crew_text) + listItem.crew)
+            imDbRating.text = ( id.context.getString(R.string.imDbRating_text) +  listItem.imDbRating.toString())
+            imDbRatingCount.text = ( id.context.getString(R.string.imDbRatingCounttext) + listItem.imDbRatingCount.toString())
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_layout,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.film_iteam,parent,false)
     return MyViewHolder(itemView)
     }
 
