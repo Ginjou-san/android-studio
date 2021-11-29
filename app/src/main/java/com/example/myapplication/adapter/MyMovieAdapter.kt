@@ -1,6 +1,6 @@
 package com.example.myapplication.adapter
 
-import android.app.LauncherActivity
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -17,28 +17,31 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 
     class MyViewHolder (itemView: View):RecyclerView.ViewHolder(itemView){
 
-        val image: ImageView = itemView.findViewById(R.id.image_movie)
-        val id: TextView = itemView.findViewById(R.id.id)
-        val rank: TextView = itemView.findViewById(R.id.rank)
-        val title: TextView = itemView.findViewById(R.id.title)
-        val fullTitle: TextView = itemView.findViewById(R.id.fullTitle)
-        val year: TextView = itemView.findViewById(R.id.year)
-        val crew: TextView = itemView.findViewById(R.id.crew)
-        val imDbRating:TextView = itemView.findViewById(R.id.imDbRating)
-        val imDbRatingCount: TextView = itemView.findViewById(R.id.imDbRatingCount)
+        private val image: ImageView = itemView.findViewById(R.id.image_movie)
+        private val id: TextView = itemView.findViewById(R.id.id)
+        private val rank: TextView = itemView.findViewById(R.id.rank)
+        private val title: TextView = itemView.findViewById(R.id.title)
+        private val fullTitle: TextView = itemView.findViewById(R.id.fullTitle)
+        private val year: TextView = itemView.findViewById(R.id.year)
+        private val crew: TextView = itemView.findViewById(R.id.crew)
+        private val imDbRating:TextView = itemView.findViewById(R.id.imDbRating)
+        private val imDbRatingCount: TextView = itemView.findViewById(R.id.imDbRatingCount)
+        private val test1 = R.string.id_text
+
+
 
 
 
         fun bind(listItem:Films){
             Glide.with(image.context).load(listItem.image).into (image)
-            id.text = listItem.id
-            rank.text = listItem.rank.toString()
-            title.text = listItem.title
-            fullTitle.text = listItem.fullTitle
-            year.text = listItem.year.toString()
-            crew.text = listItem.crew
-            imDbRating.text = listItem.imDbRating.toString()
-            imDbRatingCount.text = listItem.imDbRatingCount.toString()
+            id.text = ( "$test1" + listItem.id)
+            rank.text = ("rank: " + listItem.rank.toString())
+            title.text = ("title: " + listItem.title)
+            fullTitle.text = ("fullTitle: " + listItem.fullTitle)
+            year.text = ("year: " +  listItem.year.toString())
+            crew.text = ( "crew: " + listItem.crew)
+            imDbRating.text = ( "imDbRating: " +  listItem.imDbRating.toString())
+            imDbRatingCount.text = ( "imDbRatingCount: " + listItem.imDbRatingCount.toString())
         }
     }
 
