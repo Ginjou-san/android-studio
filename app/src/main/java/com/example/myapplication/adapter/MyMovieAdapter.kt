@@ -27,14 +27,14 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 
         fun bind(listItem:Films){
             Glide.with(image.context).load(listItem.image).into (image)
-            id.text = ( id.context.getString(R.string.id_text)+ listItem.id)
-            rank.text = (id.context.getString(R.string.rank_text) + listItem.rank.toString())
-            title.text = (id.context.getString(R.string.title_text) + listItem.title)
-            fullTitle.text = (id.context.getString(R.string.fullTitle_text) + listItem.fullTitle)
-            year.text = (id.context.getString(R.string.year_text) +  listItem.year.toString())
-            crew.text = ( id.context.getString(R.string.crew_text) + listItem.crew)
-            imDbRating.text = ( id.context.getString(R.string.imDbRating_text) +  listItem.imDbRating.toString())
-            imDbRatingCount.text = ( id.context.getString(R.string.imDbRatingCounttext) + listItem.imDbRatingCount.toString())
+            id.text = ( id.context.getString(R.string.id_text) + " " + listItem.id)
+            rank.text = (id.context.getString(R.string.rank_text) + " " + listItem.rank.toString())
+            title.text = (id.context.getString(R.string.title_text) + " " +  listItem.title)
+            fullTitle.text = (id.context.getString(R.string.fullTitle_text) + " " + listItem.fullTitle)
+            year.text = (id.context.getString(R.string.year_text) + " " + listItem.year.toString())
+            crew.text = ( id.context.getString(R.string.crew_text) + " " + listItem.crew)
+            imDbRating.text = ( id.context.getString(R.string.imDbRating_text) + " " + listItem.imDbRating.toString())
+            imDbRatingCount.text = ( id.context.getString(R.string.imDbRatingCounttext) + " " + listItem.imDbRatingCount.toString())
         }
     }
 
