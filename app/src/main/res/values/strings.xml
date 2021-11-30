@@ -8,5 +8,7 @@
     <string name="crew_text">crew: </string>
     <string name="imDbRating_text">imDbRating: </string>
     <string name="imDbRatingCounttext">imDbRatingCounttext: </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -22,6 +22,7 @@ class Top250 : Fragment() {
     lateinit var layoutManager: LinearLayoutManager
     lateinit var rvFilms: RecyclerView
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,17 +44,19 @@ class Top250 : Fragment() {
         getAllMovieList()
     }
 
+
+
     private fun getAllMovieList() {
         mService.getMovieList().enqueue(object : Callback<Items> {
             override fun onFailure(call: Call<Items>, t: Throwable) {
-                Log.i("test1", t.toString())
+//                Log.i("test1", t.toString())
             }
             override fun onResponse(call: Call<Items>, response: Response<Items>){
                 val items = response.body()
                 adapter = MyMovieAdapter (context!!,items!!.items)
                 adapter.notifyDataSetChanged()
                 rvFilms.adapter = adapter
-                Log.i("test2", response.toString())
+//                Log.i("test2", response.toString())
             }
         })
     }
