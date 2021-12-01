@@ -11,9 +11,9 @@ import com.example.myapplication.R
 import com.example.myapplication.model.Films
 
 
-class MyMovieAdapter(private val context: Context,private val movieList: List<Films>):RecyclerView.Adapter<MyMovieAdapter.MyViewHolder>() {
+class MyMovieAdapter(private val context: Context,private val movieList: List<Films>, private val listener: OnFilmSelectListener ):RecyclerView.Adapter<MyMovieAdapter.MyViewHolder>() {
 
-    class MyViewHolder (itemView: View):RecyclerView.ViewHolder(itemView){
+    class MyViewHolder (itemView: View, val listener: OnFilmSelectListener):RecyclerView.ViewHolder(itemView){
 
         private val image: ImageView = itemView.findViewById(R.id.image_movie)
         private val id: TextView = itemView.findViewById(R.id.id)
@@ -35,12 +35,13 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
             crew.text = ( id.context.getString(R.string.crew_text) + " " + listItem.crew)
             imDbRating.text = ( id.context.getString(R.string.imDbRating_text) + " " + listItem.imDbRating.toString())
             imDbRatingCount.text = ( id.context.getString(R.string.imDbRatingCounttext) + " " + listItem.imDbRatingCount.toString())
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.film_iteam,parent,false)
-    return MyViewHolder(itemView)
+    return MyViewHolder(itemView, listener)
     }
 
     override fun getItemCount() = movieList.size

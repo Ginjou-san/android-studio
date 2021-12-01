@@ -9,7 +9,19 @@
         android:id="@+id/top250_layout"
         android:name="com.example.myapplication.Top250"
         android:label="First Fragment"
-        tools:layout="@layout/fragment_top250">
+        tools:layout="@layout/film_iteam">
+
+
+        <action
+            android:id="@+id/action_top250_layout_to_title_250"
+            app:destination="@id/title_250" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/title_250"
+        android:name="com.example.myapplication.Top250"
+        android:label="First Fragment"
+        tools:layout="@layout/fragment_title_top250">
 
     </fragment>
 
