@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.MyMovieAdapter
-import com.example.myapplication.adapter.OnFilmSelectListener
 import com.example.myapplication.common.Common
 import com.example.myapplication.databinding.FilmIteamBinding
 import com.example.myapplication.model.Films
@@ -29,7 +28,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
     private var _binding: FilmIteamBinding? = null
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +38,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,7 +47,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
         layoutManager = LinearLayoutManager(context)
         rvFilms.layoutManager = layoutManager
 
-        val button:ImageView = view.findViewById(R.id.image_movie)
+//        val button:ImageView = view.findViewById(R.id.image_movie)
 
 //        button.setOnClickListener {
 //            val bundle = Bundle()
@@ -84,12 +81,4 @@ class Top250 : Fragment(), OnFilmSelectListener {
     override fun onSelect (films: Films){
 
     }
-
-    }
-
-
-
-//data class IdClass(
-//    val id: String
-//
-//):Serializable
+}
