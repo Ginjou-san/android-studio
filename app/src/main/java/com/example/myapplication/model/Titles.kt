@@ -3,7 +3,7 @@ package com.example.myapplication.model
 data class Titles(
     val actorList: List<Actor>,
     val awards: String,
-    val boxOffice: BoxOffice,
+    val boxOffice: String,
     val companies: String,
     val companyList: List<Company>,
     val contentRating: String,
@@ -31,7 +31,7 @@ data class Titles(
     val plotLocal: String,
     val plotLocalIsRtl: Boolean,
     val posters: Any,
-    val ratings: Any,
+    val ratings: String,
     val releaseDate: String,
     val runtimeMins: String,
     val runtimeStr: String,

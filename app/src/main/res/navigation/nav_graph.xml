@@ -10,8 +10,6 @@
         android:name="com.example.myapplication.Top250"
         android:label="First Fragment"
         tools:layout="@layout/film_iteam">
-
-
         <action
             android:id="@+id/action_top250_layout_to_title_250"
             app:destination="@id/title_250" />
@@ -19,10 +17,13 @@
 
     <fragment
         android:id="@+id/title_250"
-        android:name="com.example.myapplication.Top250"
+        android:name="com.example.myapplication.TitleTop250"
         android:label="First Fragment"
         tools:layout="@layout/fragment_title_top250">
 
+        <action
+            android:id="@+id/action_title_250_to_top250_layout"
+            app:destination="@id/top250_layout" />
     </fragment>
 
 </navigation>

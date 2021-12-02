@@ -36,7 +36,7 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
             crew.text = ( id.context.getString(R.string.crew_text) + " " + listItem.crew)
             imDbRating.text = ( id.context.getString(R.string.imDbRating_text) + " " + listItem.imDbRating.toString())
             imDbRatingCount.text = ( id.context.getString(R.string.imDbRatingCounttext) + " " + listItem.imDbRatingCount.toString())
-
+            itemView.setOnClickListener { listener.onSelect(listItem) }
         }
     }
 

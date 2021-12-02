@@ -1,17 +1,18 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.MyMovieAdapter
 import com.example.myapplication.common.Common
-import com.example.myapplication.databinding.FilmIteamBinding
+import com.example.myapplication.databinding.FragmentTop250Binding
 import com.example.myapplication.model.Films
 import com.example.myapplication.model.Items
 import com.example.myapplication.retrofit.RetrofitServices
@@ -25,16 +26,16 @@ class Top250 : Fragment(), OnFilmSelectListener {
     lateinit var adapter: MyMovieAdapter
     lateinit var layoutManager: LinearLayoutManager
     lateinit var rvFilms: RecyclerView
-    private var _binding: FilmIteamBinding? = null
+    private var _binding: FragmentTop250Binding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View ?{
 
-        _binding = FilmIteamBinding.inflate(inflater, container, false)
+        _binding = FragmentTop250Binding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,19 +47,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
         rvFilms.setHasFixedSize (true)
         layoutManager = LinearLayoutManager(context)
         rvFilms.layoutManager = layoutManager
-
-//        val button:ImageView = view.findViewById(R.id.image_movie)
-
-//        button.setOnClickListener {
-//            val bundle = Bundle()
-//            bundle.putSerializable("f", import)
-//            findNavController().navigate(R.id.fragment_title, bundle)
-//
-//        }
-
-        binding.imageMovie.setOnClickListener{
-            findNavController().navigate(R.id.action_top250_layout_to_title_250)
-        }
 
         getAllMovieList()
     }
@@ -79,6 +67,9 @@ class Top250 : Fragment(), OnFilmSelectListener {
     }
 
     override fun onSelect (films: Films){
+        findNavController().navigate(R.id.action_top250_layout_to_title_250)
+        Toast.makeText(requireContext(),films.fullTitle,Toast.LENGTH_LONG).show()
+//        Log.i("test1", films.toString())
 
     }
 }
