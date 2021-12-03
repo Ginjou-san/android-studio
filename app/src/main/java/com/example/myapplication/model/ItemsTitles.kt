@@ -1,5 +1,5 @@
 package com.example.myapplication.model
 
-data class ItemsTitles (
-    val itemsTitles: List<Titles>
-)
+//data class ItemsTitles (
+////    val itemsTitles: List<Titles>
+////)

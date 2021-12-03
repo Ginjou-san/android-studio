@@ -21,17 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/rank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:text="123"
-            android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/image_movie"
-            app:layout_constraintTop_toTopOf="@+id/image_movie" />
+
 
 
 

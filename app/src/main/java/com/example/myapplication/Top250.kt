@@ -19,6 +19,7 @@ import com.example.myapplication.retrofit.RetrofitServices
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
 
 
 class Top250 : Fragment(), OnFilmSelectListener {
@@ -67,9 +68,12 @@ class Top250 : Fragment(), OnFilmSelectListener {
     }
 
     override fun onSelect (films: Films){
-        findNavController().navigate(R.id.action_top250_layout_to_title_250)
+        val bundle = Bundle()
+        bundle.putSerializable("f", films.id)
+        findNavController().navigate(R.id.action_top250_layout_to_title_250, bundle)
         Toast.makeText(requireContext(),films.fullTitle,Toast.LENGTH_LONG).show()
 //        Log.i("test1", films.toString())
 
     }
 }
+

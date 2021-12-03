@@ -1,18 +1,22 @@
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+
     android:id="@+id/fragment_title"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".TitleTop250">
 
     <TextView
         android:id="@+id/title_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Title"
+        android:layout_marginTop="10dp"
+        tools:text="Inception"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,145 +25,245 @@
 
     <ImageView
         android:id="@+id/title_image_movie"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
         android:layout_width="140dp"
         android:layout_height="220dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_title"/>
-
-    <TextView
-        android:id="@+id/title_imDbRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Rating"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_genres"
-        app:layout_constraintStart_toEndOf="@+id/title_image_movie"
         app:layout_constraintTop_toBottomOf="@+id/title_title" />
 
     <TextView
-        android:id="@+id/title_genres"
+        android:id="@+id/title_imDbRating_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="genre"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Rating"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_year"
+        app:layout_constraintBottom_toTopOf="@id/title_genres_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_imDbRating"
         app:layout_constraintStart_toEndOf="@+id/title_image_movie"
-        app:layout_constraintTop_toBottomOf="@+id/title_imDbRating"/>
+        app:layout_constraintTop_toTopOf="@+id/title_image_movie" />
+
+    <TextView
+        android:id="@+id/title_imDbRating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_imDbRating_text"
+        app:layout_constraintTop_toTopOf="@+id/title_imDbRating_text"
+        tools:text="8.8" />
+
+    <TextView
+        android:id="@+id/title_genres_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="genres"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/title_year_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_genres"
+        app:layout_constraintStart_toEndOf="@+id/title_image_movie"
+        app:layout_constraintTop_toBottomOf="@+id/title_imDbRating_text" />
+
+    <TextView
+        android:id="@+id/title_genres"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_genres_text"
+        app:layout_constraintTop_toTopOf="@+id/title_genres_text"
+        tools:text="Action, Adventure, Sci-Fi" />
+
+    <TextView
+        android:id="@+id/title_year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="year"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/title_director_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_year"
+        app:layout_constraintStart_toEndOf="@+id/title_image_movie"
+        app:layout_constraintTop_toBottomOf="@+id/title_genres_text" />
 
     <TextView
         android:id="@+id/title_year"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/year_text"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_director"
-        app:layout_constraintStart_toEndOf="@+id/title_image_movie"
-        app:layout_constraintTop_toBottomOf="@+id/title_genres" />
+        app:layout_constraintStart_toEndOf="@+id/title_year_text"
+        app:layout_constraintTop_toTopOf="@id/title_year_text"
+        tools:text="2010" />
 
     <TextView
-        android:id="@+id/title_director"
+        android:id="@+id/title_director_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Director"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_metaCriticRating"
+        app:layout_constraintBottom_toTopOf="@id/title_metaCriticRating_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_director"
         app:layout_constraintStart_toEndOf="@+id/title_image_movie"
-        app:layout_constraintTop_toBottomOf="@+id/title_year" />
+        app:layout_constraintTop_toBottomOf="@+id/title_year_text" />
+
+    <TextView
+        android:id="@+id/title_director"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_director_text"
+        app:layout_constraintTop_toTopOf="@+id/title_director_text"
+        tools:text="Christopher Nolan" />
+
 
     <TextView
         android:id="@+id/title_metaCriticRating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_metaCriticRating_text"
+        app:layout_constraintTop_toTopOf="@id/title_metaCriticRating_text"
+        tools:text="90" />
+
+    <TextView
+        android:id="@+id/title_metaCriticRating_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="metaCriticRating"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/title_Liner"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/title_boxOffice_text"
+        app:layout_constraintEnd_toStartOf="@+id/title_metaCriticRating"
         app:layout_constraintStart_toEndOf="@+id/title_image_movie"
-        app:layout_constraintTop_toBottomOf="@+id/title_director" />
+        app:layout_constraintTop_toBottomOf="@+id/title_director_text" />
+
+    <TextView
+        android:id="@+id/title_boxOffice_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="boxOffice"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/title_Liner"
+        app:layout_constraintEnd_toStartOf="@+id/title_boxOffice"
+        app:layout_constraintStart_toEndOf="@+id/title_image_movie"
+        app:layout_constraintTop_toBottomOf="@+id/title_metaCriticRating_text" />
+
+    <TextView
+        android:id="@+id/title_boxOffice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_boxOffice_text"
+        app:layout_constraintTop_toTopOf="@+id/title_boxOffice_text"
+        tools:text="$500" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/title_Liner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@id/title_star_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_star_List"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_metaCriticRating">
+        app:layout_constraintTop_toBottomOf="@+id/title_image_movie">
+
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/title_star_List"
+        android:id="@+id/title_star_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="star_List"
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Stars"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/title_boxOffice"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/title_star"
         app:layout_constraintTop_toBottomOf="@+id/title_Liner" />
 
     <TextView
-        android:id="@+id/title_boxOffice"
-        android:layout_width="wrap_content"
+        android:id="@+id/title_star"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="boxOffice"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/title_plot"
+        app:layout_constraintBottom_toTopOf="@id/title_plot_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_star_List" />
+        app:layout_constraintTop_toBottomOf="@id/title_star_text"
+        tools:text="Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page" />
 
     <TextView
-        android:id="@+id/title_plot"
+        android:id="@+id/title_plot_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:text="PLOT"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/button_back"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/title_plot"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_boxOffice" />
+        app:layout_constraintTop_toBottomOf="@+id/title_star" />
 
-    <Button
-        android:id="@+id/button_back"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/title_plot"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="back"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_plot_text"
+        tools:text="Dom Cobb is a skilled thief, the absolute best in the dangerous art of extraction, stealing valuable secrets from deep within the subconscious during the dream state, when the mind is at its most vulnerable. Cobb&#39;s rare ability has made him a coveted player in this treacherous new world of corporate espionage, but it has also made him an international fugitive and cost him everything he has ever loved. Now Cobb is being offered a chance at redemption. One last job could give him his life back but only if he can accomplish the impossible, inception. Instead of the perfect heist, Cobb and his team of specialists have to pull off the reverse: their task is not to steal an idea, but to plant one. If they succeed, it could be the perfect crime. But no amount of careful planning or expertise can prepare the team for the dangerous enemy that seems to predict their every move. An enemy that only Cobb could have seen coming." />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

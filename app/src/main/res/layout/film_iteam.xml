@@ -16,9 +16,10 @@
         <ImageView
             android:id="@+id/image_movie"
             android:layout_width="140dp"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,10 +27,10 @@
             android:id="@+id/rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:textStyle="normal"
+            tools:text="Rank"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toTopOf="@+id/image_movie" />
 
@@ -39,28 +40,31 @@
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            app:layout_constraintVertical_weight="1"
             app:layout_constraintBottom_toTopOf="@id/fullTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/image_movie"
+            app:layout_constraintTop_toBottomOf="@id/rank"
+            app:layout_constraintVertical_weight="0.5"
+            tools:text="title" />
 
         <TextView
             android:id="@+id/fullTitle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintVertical_weight="1"
             app:layout_constraintBottom_toTopOf="@id/year"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintStart_toEndOf="@+id/image_movie"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintVertical_weight="0.5"
+            tools:text="fullTitle" />
 
 
         <TextView
@@ -68,60 +72,34 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintVertical_weight="0.5"
             app:layout_constraintBottom_toTopOf="@id/imDbRating"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toBottomOf="@+id/fullTitle" />
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@+id/image_movie"
+            app:layout_constraintTop_toBottomOf="@+id/fullTitle"
+            app:layout_constraintVertical_weight="0.5"
+            tools:text="year" />
 
         <TextView
             android:id="@+id/imDbRating"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@id/imDbRatingCount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toBottomOf="@+id/year"
-            app:layout_constraintVertical_weight="0.5" />
-
-        <TextView
-            android:id="@+id/imDbRatingCount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintVertical_weight="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/id"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toBottomOf="@+id/imDbRating" />
-
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="normal"
-            app:layout_constraintVertical_weight="0.5"
             app:layout_constraintBottom_toTopOf="@id/crew"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rank"
-            app:layout_constraintTop_toBottomOf="@+id/imDbRatingCount" />
+            app:layout_constraintStart_toEndOf="@+id/image_movie"
+            app:layout_constraintTop_toBottomOf="@+id/year"
+            app:layout_constraintVertical_weight="0.5"
+            tools:text="imDbRating" />
+
+
 
         <TextView
             android:id="@+id/crew"
@@ -130,14 +108,15 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintVertical_weight="0.5"
+            tools:text="crew"
+            app:layout_constraintVertical_weight="0.7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id" />
+            app:layout_constraintTop_toBottomOf="@+id/imDbRating" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

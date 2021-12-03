@@ -1,9 +1,9 @@
-package com.example.myapplication.model
+
 
 data class Titles(
     val actorList: List<Actor>,
     val awards: String,
-    val boxOffice: String,
+    val boxOffice: BoxOffice,
     val companies: String,
     val companyList: List<Company>,
     val contentRating: String,
@@ -20,7 +20,7 @@ data class Titles(
     val imDbRating: String,
     val imDbRatingVotes: String,
     val image: String,
-    val images: Any,
+    val images: Images,
     val keywordList: List<String>,
     val keywords: String,
     val languageList: List<Language>,
@@ -31,7 +31,7 @@ data class Titles(
     val plotLocal: String,
     val plotLocalIsRtl: Boolean,
     val posters: Any,
-    val ratings: String,
+    val ratings: Any,
     val releaseDate: String,
     val runtimeMins: String,
     val runtimeStr: String,
@@ -84,6 +84,16 @@ data class Genre(
     val value: String
 )
 
+data class Images(
+    val errorMessage: String,
+    val fullTitle: String,
+    val imDbId: String,
+    val items: List<Item>,
+    val title: String,
+    val type: String,
+    val year: String
+)
+
 data class Language(
     val key: String,
     val value: String
@@ -110,4 +120,9 @@ data class Star(
 data class Writer(
     val id: String,
     val name: String
+)
+
+data class Item(
+    val image: String,
+    val title: String
 )

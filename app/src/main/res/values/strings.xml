@@ -1,22 +1,11 @@
 <resources>
     <string name="id_text">id:</string>
-    <string name="rank_text">rank:</string>
-    <string name="title_text">title:</string>
-    <string name="fullTitle_text">fullTitle:</string>
-    <string name="year_text">year:</string>
-    <string name="crew_text">crew:</string>
+    <string name="rank_text">Rank:</string>
+    <string name="title_text">Title:</string>
+    <string name="fullTitle_text">Full Title:</string>
+    <string name="year_text">Year:</string>
+    <string name="crew_text">Crew:</string>
     <string name="imDbRating_text">imDbRating:</string>
     <string name="imDbRatingCounttext">imDbRatingCounttext:</string>
-    <string name="plot_text">plot:</string>
-    <string name="plot_Local_text">plotLocal:</string>
-    <string name="starList_text">starList:</string>
-    <string name="title_title_text">title:</string>
-    <string name="title_imDbRating_text">imDbRating:</string>
-    <string name="title_genres_text">genres:</string>
-    <string name="title_director_text">director:</string>
-    <string name="title_metacriticRating_text">metacriticRating:</string>
-    <string name="title_star_text">star:</string>
-    <string name="title_boxOffice_text">boxOffice:</string>
-    <string name="title_plot_text">plot:</string>
 
 </resources>
