@@ -13,6 +13,8 @@ import com.example.myapplication.model.Films
 
 
 class MyMovieAdapter(private val context: Context,private val movieList: List<Films>, private val listener: OnFilmSelectListener):RecyclerView.Adapter<MyMovieAdapter.MyViewHolder>() {
+    //В классе MyMovieAdapter мы создаем переменные, которые будут доступны только
+//в этом классе (private val movieList: List типа Films) и указываем тип возвращаемого значения
 
     class MyViewHolder (itemView: View, val listener: OnFilmSelectListener):RecyclerView.ViewHolder(itemView){
 
@@ -24,8 +26,9 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
         private val crew: TextView = itemView.findViewById(R.id.crew)
         private val imDbRating:TextView = itemView.findViewById(R.id.imDbRating)
 
+        //создаем переменные и приравниваем из к ID из XML
 
-        fun bind(listItem:Films){
+        fun bind(listItem:Films){ //Создам функцию bind c параметром listItem: Films, здесь мы передаём данные с Data class в переменные, а сами переменные уже ссылаются на ID в XML
             Glide.with(image.context).load(listItem.image).into (image)
             rank.text = (rank.context.getString(R.string.rank_text) + " " + listItem.rank.toString())
             title.text = (title.context.getString(R.string.title_text) + " " +  listItem.title)
@@ -39,15 +42,18 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.film_iteam,parent,false)
+        //Создаем переменную itemView присваиваем ей LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+        //и возвращаем MyViewHolder с параметром itemView.
+
+        //val image:ImageView = itemView.image_movie image_movie у нас тянется из item_layout
+        //и так указываем для всех оставшихся view элементов.
     return MyViewHolder(itemView, listener)
     }
 
-    override fun getItemCount() = movieList.size
-
+    override fun getItemCount() = movieList.size //Далее мы переделываем getItemCount() в override fun getItemCount() = movieList.size.
+    //Здесь все просто, мы создали функцию и возвращаем movieList.size.
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val listItem = movieList[position]
-        holder.bind(listItem)
+        val listItem = movieList[position] //в теле мы создаем переменную listItem: Movie и присваиваем movieList[position].
+        holder.bind(listItem) //Далее к holder мы присоединяем метод bind с параметрами listItem.
     }
 }
-
-

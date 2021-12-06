@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.MyTitleAdapter
 import com.example.myapplication.common.Common
-import com.example.myapplication.model.Items
 import com.example.myapplication.retrofit.RetrofitServices
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,9 +32,8 @@ class TitleTop250 : Fragment() {
     lateinit var tvPLOT:TextView
     lateinit var adapter: MyTitleAdapter
     lateinit var rvFilms: RecyclerView
-//    private var _binding: FragmentTitleTop250Binding? = null
-//    private val binding get() = _binding!!
     lateinit var tvImageMovies:ImageView
+    //Создаем переменные с которых будем ссылаться на id
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,17 +41,16 @@ class TitleTop250 : Fragment() {
 
     ): View? {
 
-//        _binding = FragmentTitleTop250Binding.inflate(inflater, container, false)
-        return inflater.inflate(R.layout.fragment_title_top250, container, false)
+        return inflater.inflate(R.layout.fragment_title_top250, container, false) // ...
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)  // в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
 
-        rvFilms = view.findViewById(R.id.title_Liner)
-        mService = Common.retrofitService
+        rvFilms = view.findViewById(R.id.title_Liner)   //указываем что переменная rvFilms  равна  id title_Liner
+        mService = Common.retrofitService               //В методе onViewCreated мы к RetrofitServices присваиваем Common.retrofitServices.
         rvFilms.layoutManager = horizontalScrollView
         tvTitles = view.findViewById(R.id.title_title)
         tvRating = view.findViewById(R.id.title_imDbRating)
@@ -65,6 +62,8 @@ class TitleTop250 : Fragment() {
         tvBoxOffice = view.findViewById(R.id.title_boxOffice)
         tvPLOT = view.findViewById(R.id.title_plot)
         tvImageMovies = view.findViewById(R.id.title_image_movie)
+
+        //связываем наши переменные с ID
 
         getAllMovieList()
     }
@@ -98,7 +97,7 @@ class TitleTop250 : Fragment() {
         tvPLOT.text = titles.plot
         Glide.with(tvImageMovies.context).load(titles.image).into(tvImageMovies)
     }
-
+        //связываем наши переменные с Data class
 }
 
 
