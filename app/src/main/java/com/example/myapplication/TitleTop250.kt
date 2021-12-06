@@ -18,6 +18,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+
 class TitleTop250 : Fragment() {
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
@@ -26,9 +28,7 @@ class TitleTop250 : Fragment() {
     lateinit var tvYear:TextView
     lateinit var tvDirector:TextView
     lateinit var tvMetaCriticRating:TextView
-    lateinit var tvStarList:TextView
     lateinit var tvBoxOffice:TextView
-    lateinit var tvPLOT:TextView
     lateinit var adapter: MyTitleAdapter
     lateinit var rvFilms: RecyclerView
     lateinit var tvImageMovies:ImageView
@@ -57,9 +57,7 @@ class TitleTop250 : Fragment() {
         tvYear = view.findViewById(R.id.title_year)
         tvDirector = view.findViewById(R.id.title_director)
         tvMetaCriticRating = view.findViewById(R.id.title_metaCriticRating)
-        tvStarList = view.findViewById(R.id.title_star)
         tvBoxOffice = view.findViewById(R.id.title_boxOffice)
-        tvPLOT = view.findViewById(R.id.title_plot)
         tvImageMovies = view.findViewById(R.id.title_image_movie)
 
         //связываем наши переменные с ID
@@ -91,9 +89,7 @@ class TitleTop250 : Fragment() {
         tvYear.text = titles.year
         tvDirector.text = titles.directors
         tvMetaCriticRating.text = titles.metacriticRating
-        tvStarList.text = titles.stars
         tvBoxOffice.text = titles.boxOffice.budget
-        tvPLOT.text = titles.plot
         Glide.with(tvImageMovies.context).load(titles.image).into(tvImageMovies)
     }
         //связываем наши переменные с Data class
