@@ -5,3 +5,5 @@ import com.example.myapplication.model.Films
 sealed interface OnFilmSelectListener{
     fun onSelect (films: Films)
 }
+
+// в интерфейсе создаём fun onSelect, для обращения к нашему Data class

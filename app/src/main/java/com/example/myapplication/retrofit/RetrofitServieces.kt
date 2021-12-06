@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RetrofitServices {
-    @GET("Top250Movies/k_k9cqlnuz") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные у нас это marvel
+    @GET("Top250Movies/k_k9cqlnuz") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
     fun getMovieList (): retrofit2.Call<Items>
 
     @GET("Title/k_k9cqlnuz/{id}/Images")

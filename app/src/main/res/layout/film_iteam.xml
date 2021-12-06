@@ -38,7 +38,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:textColor="@android:color/black"
@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toBottomOf="@id/rank"
-            app:layout_constraintVertical_weight="0.5"
+            app:layout_constraintVertical_weight="0.7"
             tools:text="title" />
 
         <TextView
@@ -63,7 +63,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintVertical_weight="0.5"
+            app:layout_constraintVertical_weight="0.7"
             tools:text="fullTitle" />
 
 
@@ -80,7 +80,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toBottomOf="@+id/fullTitle"
-            app:layout_constraintVertical_weight="0.5"
+            app:layout_constraintVertical_weight="0.7"
             tools:text="year" />
 
         <TextView
@@ -96,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toBottomOf="@+id/year"
-            app:layout_constraintVertical_weight="0.5"
+            app:layout_constraintVertical_weight="0.7"
             tools:text="imDbRating" />
 
 
@@ -105,7 +105,7 @@
             android:id="@+id/crew"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"

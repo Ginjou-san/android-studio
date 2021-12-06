@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import Titles
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +32,7 @@ class TitleTop250 : Fragment() {
     lateinit var adapter: MyTitleAdapter
     lateinit var rvFilms: RecyclerView
     lateinit var tvImageMovies:ImageView
-    //Создаем переменные с которых будем ссылаться на id
+    //Создаем переменные с которых будем ссылаться на Id, и чтобы не объявлять их типа null объявим их через lateinit var
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,16 +40,16 @@ class TitleTop250 : Fragment() {
 
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_title_top250, container, false) // ...
-    }
+        return inflater.inflate(R.layout.fragment_title_top250, container, false) // даем возможность работать с полями через inflater
+    }   //inflater - указывает с какой конткретно XML мы работаем
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)  // в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
+        val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
 
         rvFilms = view.findViewById(R.id.title_Liner)   //указываем что переменная rvFilms  равна  id title_Liner
-        mService = Common.retrofitService               //В методе onViewCreated мы к RetrofitServices присваиваем Common.retrofitServices.
+        mService = Common.retrofitService               //В методе onViewCreated к RetrofitServices присваиваем Common.retrofitServices.
         rvFilms.layoutManager = horizontalScrollView
         tvTitles = view.findViewById(R.id.title_title)
         tvRating = view.findViewById(R.id.title_imDbRating)
@@ -65,22 +64,22 @@ class TitleTop250 : Fragment() {
 
         //связываем наши переменные с ID
 
-        getAllMovieList()
+        getAllMovieList()// запрашиваем вызов функции getAllMovieList
     }
 
     private fun getAllMovieList() {
-        val titleId = arguments?.getSerializable("f") as String
-        mService.getTitleList(titleId).enqueue(object : Callback<Titles> {
+        val titleId = arguments?.getSerializable("f") as String         // arguments? вытаскиваем из бандла как строку
+        mService.getTitleList(titleId).enqueue(object : Callback<Titles> {  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
             override fun onFailure(call: Call<Titles>, t: Throwable) {
 //                Log.i("test1", t.toString())
             }
-
+            //Предопределяем метод onResponse в с лучае получение данных
             override fun onResponse(call: Call<Titles>, response: Response<Titles>) {
                 val titlesItems = response.body() ?: return
                 ui(titlesItems)
-                adapter = MyTitleAdapter (context!!, titlesItems.images.items)
+                adapter = MyTitleAdapter (context!!, titlesItems.images.items)  //K adapter присваиваем MyTitleAdapter
                 adapter.notifyDataSetChanged()
-                rvFilms.adapter = adapter
+                rvFilms.adapter = adapter                                       //К нашему списку мы присоединяем adapter и присваиваем adapter
             }
         })
     }
