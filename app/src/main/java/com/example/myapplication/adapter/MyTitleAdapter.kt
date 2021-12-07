@@ -37,7 +37,7 @@ class MyTitleAdapter(private val context: Context, private val TitleList: List<I
 
     override fun getItemCount() = TitleList.size
     //переделываем getItemCount() в override fun getItemCount() = TitleList.size.
-    //создаёи функцию и возвращаем movieList.size.
+    //получаем подсчёт количества элементов которое нам пришло
     override fun onBindViewHolder(holder: MyTitleViewHolder, position: Int) {
         val listItem = TitleList[position] //в теле создаем переменную TitleList: Movie и присваиваем movieList[position].
         holder.bind(listItem)// к holder присоединяем метод bind с параметрами listItem.

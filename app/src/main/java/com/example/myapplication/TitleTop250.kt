@@ -10,10 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.MyTitleAdapter
+import com.example.myapplication.adapter.TabLayoutAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +25,12 @@ import retrofit2.Response
 
 
 class TitleTop250 : Fragment() {
+
+    private lateinit var adapterPage: TabLayoutAdapter
+    private lateinit var viewPager:ViewPager2
+    private lateinit var tabLayout: TabLayout
+    var tabTitle = arrayOf("Actors","Plot")
+
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
     lateinit var tvRating:TextView
@@ -32,6 +42,8 @@ class TitleTop250 : Fragment() {
     lateinit var adapter: MyTitleAdapter
     lateinit var rvFilms: RecyclerView
     lateinit var tvImageMovies:ImageView
+
+
     //Создаем переменные с которых будем ссылаться на Id, и чтобы не объявлять их типа null объявим их через lateinit var
 
     override fun onCreateView(
@@ -61,6 +73,16 @@ class TitleTop250 : Fragment() {
         tvImageMovies = view.findViewById(R.id.title_image_movie)
 
         //связываем наши переменные с ID
+
+        adapterPage = TabLayoutAdapter (this)
+        viewPager = view.findViewById(R.id.page)
+        viewPager.adapter= adapterPage
+        tabLayout = view.findViewById(R.id.tab_layout)
+
+        TabLayoutMediator(tabLayout, viewPager) {
+                tab, position ->
+            tab.text = tabTitle[position]
+        }.attach()
 
         getAllMovieList()// запрашиваем вызов функции getAllMovieList
     }

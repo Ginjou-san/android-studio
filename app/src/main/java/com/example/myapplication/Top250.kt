@@ -19,7 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class Top250 : Fragment(), OnFilmSelectListener {
     lateinit var mService: RetrofitServices
     lateinit var adapter: MyMovieAdapter

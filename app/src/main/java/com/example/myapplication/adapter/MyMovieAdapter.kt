@@ -48,7 +48,7 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
     }
 
     override fun getItemCount() = movieList.size //Далее мы переделываем getItemCount() в override fun getItemCount() = movieList.size.
-    //Создаём функцию и возвращаем movieList.size.
+   //получаем подсчёт количества элементов которое нам пришло
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listItem = movieList[position] //в теле создаем переменную listItem: Movie и присваиваем movieList[position].
         holder.bind(listItem) //Далее к holder присоединяем метод bind с параметрами listItem.
