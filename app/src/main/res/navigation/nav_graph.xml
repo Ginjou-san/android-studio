@@ -14,9 +14,7 @@
             android:id="@+id/action_top250_layout_to_title_250"
             app:destination="@id/title_250" />
 
-        <action
-            android:id="@+id/action_top250_layout_to_pager_actors"
-            app:destination="@id/pager_actors" />
+
     </fragment>
 
     <fragment
@@ -28,6 +26,9 @@
         <action
             android:id="@+id/action_title_250_to_top250_layout"
             app:destination="@id/top250_layout" />
+        <action
+            android:id="@+id/action_title_250_to_pager_actors"
+            app:destination="@id/pager_actors" />
     </fragment>
 
     <fragment

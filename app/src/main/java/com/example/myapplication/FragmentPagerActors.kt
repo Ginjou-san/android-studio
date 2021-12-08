@@ -9,22 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.adapter.MyPagerActorsAdapter
-import com.example.myapplication.common.Common
-import com.example.myapplication.databinding.RecyclerViewActorsBinding
-import com.example.myapplication.retrofit.RetrofitServices
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.myapplication.adapter.*
+import okhttp3.Response
 
 class FragmentViewPagerActors : Fragment() {
-    lateinit var mService: RetrofitServices
+//    lateinit var mService: RetrofitServices
     lateinit var adapter: MyPagerActorsAdapter
     lateinit var linerLayoutManager: LinearLayoutManager
     lateinit var rvFilms: RecyclerView
-    private var _binding: RecyclerViewActorsBinding? = null
-    private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,37 +24,24 @@ class FragmentViewPagerActors : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = RecyclerViewActorsBinding.inflate(inflater, container, false) // указываем с какой xml работаем
-        return binding.root
+        return inflater.inflate(R.layout.recycler_view_actors, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View,  savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val verticalScrollView = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         rvFilms = view.findViewById(R.id.recycler_actors)
-        mService = Common.retrofitService
+//        mService = Common.retrofitService
 //        rvFilms.setHasFixedSize (true)
-        linerLayoutManager = LinearLayoutManager(context)
+        linerLayoutManager = verticalScrollView
         rvFilms.layoutManager = linerLayoutManager
+      rvFilms.adapter = MyPagerActorsAdapter(Actor)
+//        rvFilms.adapter = adapter
 
-
-        getAllMovieList()
+//        getAllMovieList()
     }
-
-    private fun getAllMovieList() {
-        val titleId = arguments?.getSerializable("f")
-        mService.getTitleList(titleId as String).enqueue(object : Callback<Actor> {
-            override fun onFailure(call: Call<Actor>, t: Throwable) {
-            }
-
-            override fun onResponse(call: Call<Actor>, response: Response<Actor>){
-                val titlesItems = response.body()
-                adapter = MyPagerActorsAdapter (context!!,titlesItems.name.)
-                adapter.notifyDataSetChanged()
-                rvFilms.adapter = adapter
-            }
-        })
-    }
-
 
 }
+

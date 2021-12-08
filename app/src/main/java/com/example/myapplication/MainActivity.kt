@@ -15,11 +15,15 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-}
+    override fun onCreate(savedInstanceState: Bundle?) { //он вызывается, когда приложение создает и отображает Activity
+    super.onCreate(savedInstanceState)//это вызов метода родительского класса, выполняющий необходимые процедуры, его мы не трогаем.
 
+    setContentView(R.layout.activity_main) //Метод setContentView(int) – устанавливает содержимое Activity из layout-файла.
+    // Но в качестве аргумента мы указываем не путь к layout-файлу (res/layout/activity_main.xml), а константу, которая является ID файла.
+    // Эта константа генерируется автоматически в файле R.java, который мы пока трогать не будем.
+    // В этом классе будут храниться сгенерированные ID для всех ресурсов проекта (из папки res/*), чтобы мы могли к ним обращаться.
+    // Имена этих ID-констант совпадают с именами файлов ресурсов (без расширений).
+}
 }
 
 

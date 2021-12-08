@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.*
 
-class MyPagerActorsAdapter (private val context: Context, private val TitleList: List<Actor>) : RecyclerView.Adapter<MyPagerActorsAdapter.MyPagerActorsHolder>(){
+class MyPagerActorsAdapter (private val context: Context, private val actorList: List<Actor>) : RecyclerView.Adapter<MyPagerActorsAdapter.MyPagerActorsHolder>(){
 
     class MyPagerActorsHolder (itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -22,7 +22,7 @@ class MyPagerActorsAdapter (private val context: Context, private val TitleList:
     fun bind(listItem: Actor){
         Glide.with(pagerImage.context).load(listItem.image).into (pagerImage)
         name.text = (name.context.getString(R.string.pager_name)+ listItem.name)
-        pagerAsCharacter.text = (pagerAsCharacter.context.getString(R.string.pager_as_character)+ listItem.asCharacter)
+        pagerAsCharacter.text = (pagerAsCharacter.context.getString(R.string.pager_as_character) + listItem.asCharacter)
     }
 }
 
@@ -32,10 +32,10 @@ class MyPagerActorsAdapter (private val context: Context, private val TitleList:
 
     }
 
-    override fun getItemCount() = TitleList.size
+    override fun getItemCount() = actorList.size
 
     override fun onBindViewHolder(holder: MyPagerActorsHolder, position: Int) {
-        val listItem = TitleList[position]
+        val listItem = actorList[position]
         holder.bind(listItem)
     }
 

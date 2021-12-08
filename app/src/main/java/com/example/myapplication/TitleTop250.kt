@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import Actor
 import Titles
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.MyTitleAdapter
-import com.example.myapplication.adapter.TabLayoutAdapter
+import com.example.myapplication.adapter.PageAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
 import com.google.android.material.tabs.TabLayout
@@ -26,11 +27,10 @@ import retrofit2.Response
 
 class TitleTop250 : Fragment() {
 
-    private lateinit var adapterPage: TabLayoutAdapter
+    private lateinit var adapterPage: PageAdapter
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
     var tabTitle = arrayOf("Actors","Plot")
-
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
     lateinit var tvRating:TextView
@@ -46,7 +46,7 @@ class TitleTop250 : Fragment() {
 
     //Создаем переменные с которых будем ссылаться на Id, и чтобы не объявлять их типа null объявим их через lateinit var
 
-    override fun onCreateView(
+    override fun onCreateView(  //onCreate – он вызывается, когда приложение создает и отображает Activity
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
 
@@ -56,7 +56,7 @@ class TitleTop250 : Fragment() {
     }   //inflater - указывает с какой конткретно XML мы работаем
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState) //это вызов метода родительского класса, выполняющий необходимые процедуры.
 
         val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
 
@@ -74,9 +74,9 @@ class TitleTop250 : Fragment() {
 
         //связываем наши переменные с ID
 
-        adapterPage = TabLayoutAdapter (this)
+        adapterPage = PageAdapter (this)
         viewPager = view.findViewById(R.id.page)
-        viewPager.adapter= adapterPage
+        viewPager.adapter = adapterPage
         tabLayout = view.findViewById(R.id.tab_layout)
 
         TabLayoutMediator(tabLayout, viewPager) {
@@ -88,21 +88,31 @@ class TitleTop250 : Fragment() {
     }
 
     private fun getAllMovieList() {
-        val titleId = arguments?.getSerializable("f") as String         // arguments? вытаскиваем из бандла как строку
-        mService.getTitleList(titleId).enqueue(object : Callback<Titles> {  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
+        val titleId = arguments?.getSerializable("f") as String        // arguments? вытаскиваем из бандла как строку
+        mService.getTitleList(titleId).enqueue(object : Callback<Titles>{  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
             override fun onFailure(call: Call<Titles>, t: Throwable) {
 //                Log.i("test1", t.toString())
             }
             //Предопределяем метод onResponse в с лучае получение данных
             override fun onResponse(call: Call<Titles>, response: Response<Titles>) {
                 val titlesItems = response.body() ?: return
+
                 ui(titlesItems)
-                adapter = MyTitleAdapter (context!!, titlesItems.images.items)  //K adapter присваиваем MyTitleAdapter
+
+                adapter = MyTitleAdapter (context!!, titlesItems.images.items)
                 adapter.notifyDataSetChanged()
-                rvFilms.adapter = adapter                                       //К нашему списку мы присоединяем adapter и присваиваем adapter
+                rvFilms.adapter = adapter
             }
         })
     }
+
+//    fun bundle (actorList : Actor){
+//        val bundle = Bundle()
+//        bundle.putString("t" , actorList.image)
+//        bundle.putString("t" , actorList.asCharacter)
+//        bundle.putString("t" , actorList.name)
+//
+//    }
 
     private fun ui(titles: Titles) {
         tvTitles.text = titles.title
