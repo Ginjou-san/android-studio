@@ -1,4 +1,4 @@
-
+import java.io.Serializable
 
 data class Titles(
     val actorList: List<Actor>,
@@ -48,7 +48,7 @@ data class Titles(
     val writerList: List<Writer>,
     val writers: String,
     val year: String
-)
+) :Serializable
 
 data class Actor(
     val asCharacter: String,

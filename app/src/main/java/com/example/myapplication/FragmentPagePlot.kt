@@ -1,16 +1,18 @@
 package com.example.myapplication
 
+import Titles
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
-//const val ARG_OBJECT = "t"
 
 class FragmentPagePlot : Fragment() {
 
+    lateinit var rvPlot: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,11 +21,13 @@ class FragmentPagePlot : Fragment() {
         return inflater.inflate(R.layout.fragment_pager_plot, container, false)
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-//            val textView: TextView = view.findViewById(R.id.page_plot)
-//            textView.text = getInt(ARG_OBJECT).toString()
-//        }
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        val titleData = arguments?.getSerializable("t") as Titles
+
+        rvPlot = view.findViewById(R.id.page_plot)
+       rvPlot.text = titleData.plot
+
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import Actor
 import Titles
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,13 +9,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.*
-import okhttp3.Response
+
 
 class FragmentViewPagerActors : Fragment() {
-//    lateinit var mService: RetrofitServices
-    lateinit var adapter: MyPagerActorsAdapter
-    lateinit var linerLayoutManager: LinearLayoutManager
-    lateinit var rvFilms: RecyclerView
+
+    lateinit var rvActors: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,18 +27,12 @@ class FragmentViewPagerActors : Fragment() {
     override fun onViewCreated(view: View,  savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val verticalScrollView = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val titleData = arguments?.getSerializable("t") as Titles
 
-        rvFilms = view.findViewById(R.id.recycler_actors)
-//        mService = Common.retrofitService
-//        rvFilms.setHasFixedSize (true)
-        linerLayoutManager = verticalScrollView
-        rvFilms.layoutManager = linerLayoutManager
-      rvFilms.adapter = MyPagerActorsAdapter(Actor)
-//        rvFilms.adapter = adapter
-
-//        getAllMovieList()
+        rvActors = view.findViewById(R.id.recycler_actors)
+        rvActors.layoutManager = LinearLayoutManager(context)
+        rvActors.setHasFixedSize (true)
+        rvActors.adapter = MyPagerActorsAdapter(titleData.actorList)
     }
-
 }
 

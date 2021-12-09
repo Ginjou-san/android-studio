@@ -7,8 +7,8 @@
     <string name="crew_text">Crew:</string>
     <string name="imDbRating_text">imDbRating:</string>
     <string name="imDbRatingCounttext">imDbRatingCounttext:</string>
-    <string name="pager_name">name:</string>
-    <string name="pager_as_character">character:</string>
+    <string name="pager_name">Name:</string>
+    <string name="pager_as_character">Character:</string>
     <string name="page_plot">PLOT:</string>
 
 

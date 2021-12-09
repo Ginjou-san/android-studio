@@ -58,7 +58,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
             //Предопределяем метод onResponse в с лучае получение данных
             override fun onResponse(call: Call<Items>, response: Response<Items>){
                 val items = response.body()
-                adapter = MyMovieAdapter (context!!,items!!.items, this@Top250 ) //   // мы к adapter присваиваем MyMovieAdapter
+                adapter = MyMovieAdapter (context!!,items!!.items, this@Top250) //   // мы к adapter присваиваем MyMovieAdapter
                 adapter.notifyDataSetChanged()
                 rvFilms.adapter = adapter                   //К нашему списку мы присоединяем adapter и присваиваем adapter.
             }

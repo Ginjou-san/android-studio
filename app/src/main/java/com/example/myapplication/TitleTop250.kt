@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import Actor
 import Titles
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -31,6 +30,9 @@ class TitleTop250 : Fragment() {
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
     var tabTitle = arrayOf("Actors","Plot")
+    lateinit var titleData:Titles
+
+
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
     lateinit var tvRating:TextView
@@ -60,6 +62,9 @@ class TitleTop250 : Fragment() {
 
         val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
 
+
+        viewPager = view.findViewById(R.id.page)
+        tabLayout = view.findViewById(R.id.tab_layout)
         rvFilms = view.findViewById(R.id.title_Liner)   //указываем что переменная rvFilms  равна  id title_Liner
         mService = Common.retrofitService               //В методе onViewCreated к RetrofitServices присваиваем Common.retrofitServices.
         rvFilms.layoutManager = horizontalScrollView
@@ -74,15 +79,10 @@ class TitleTop250 : Fragment() {
 
         //связываем наши переменные с ID
 
-        adapterPage = PageAdapter (this)
-        viewPager = view.findViewById(R.id.page)
-        viewPager.adapter = adapterPage
-        tabLayout = view.findViewById(R.id.tab_layout)
 
-        TabLayoutMediator(tabLayout, viewPager) {
-                tab, position ->
-            tab.text = tabTitle[position]
-        }.attach()
+
+
+
 
         getAllMovieList()// запрашиваем вызов функции getAllMovieList
     }
@@ -95,13 +95,28 @@ class TitleTop250 : Fragment() {
             }
             //Предопределяем метод onResponse в с лучае получение данных
             override fun onResponse(call: Call<Titles>, response: Response<Titles>) {
-                val titlesItems = response.body() ?: return
+                val titlesItems = response.body()
+                if (titlesItems !=null) {
+                    titleData = titlesItems
+                }
+                if (titlesItems == null){
+                    return
+                }
+
+                adapterPage = PageAdapter (this@TitleTop250,titleData)
+                viewPager.adapter = adapterPage
+
+                TabLayoutMediator(tabLayout, viewPager) {
+                        tab, position ->
+                    tab.text = tabTitle[position]
+                }.attach()
 
                 ui(titlesItems)
 
                 adapter = MyTitleAdapter (context!!, titlesItems.images.items)
                 adapter.notifyDataSetChanged()
                 rvFilms.adapter = adapter
+
             }
         })
     }

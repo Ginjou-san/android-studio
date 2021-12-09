@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.*
 
-class MyPagerActorsAdapter (private val context: Context, private val actorList: List<Actor>) : RecyclerView.Adapter<MyPagerActorsAdapter.MyPagerActorsHolder>(){
+class MyPagerActorsAdapter(private val actorList: List<Actor>) : RecyclerView.Adapter<MyPagerActorsAdapter.MyPagerActorsHolder>(){
 
     class MyPagerActorsHolder (itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -21,15 +21,15 @@ class MyPagerActorsAdapter (private val context: Context, private val actorList:
 
     fun bind(listItem: Actor){
         Glide.with(pagerImage.context).load(listItem.image).into (pagerImage)
-        name.text = (name.context.getString(R.string.pager_name)+ listItem.name)
-        pagerAsCharacter.text = (pagerAsCharacter.context.getString(R.string.pager_as_character) + listItem.asCharacter)
+        name.text = (name.context.getString(R.string.pager_name)+ " " + listItem.name)
+        pagerAsCharacter.text = (pagerAsCharacter.context.getString(R.string.pager_as_character) + " " + listItem.asCharacter)
     }
 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPagerActorsHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_pager_actors,parent,false)
-        return MyPagerActorsHolder(itemView)
 
+        return MyPagerActorsHolder(itemView)
     }
 
     override fun getItemCount() = actorList.size
