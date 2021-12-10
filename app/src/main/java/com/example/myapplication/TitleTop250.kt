@@ -31,8 +31,6 @@ class TitleTop250 : Fragment() {
     private lateinit var tabLayout: TabLayout
     var tabTitle = arrayOf("Actors","Plot")
     lateinit var titleData:Titles
-
-
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
     lateinit var tvRating:TextView
@@ -44,7 +42,6 @@ class TitleTop250 : Fragment() {
     lateinit var adapter: MyTitleAdapter
     lateinit var rvFilms: RecyclerView
     lateinit var tvImageMovies:ImageView
-
 
     //Создаем переменные с которых будем ссылаться на Id, и чтобы не объявлять их типа null объявим их через lateinit var
 
@@ -78,11 +75,6 @@ class TitleTop250 : Fragment() {
         tvImageMovies = view.findViewById(R.id.title_image_movie)
 
         //связываем наши переменные с ID
-
-
-
-
-
 
         getAllMovieList()// запрашиваем вызов функции getAllMovieList
     }
@@ -121,14 +113,6 @@ class TitleTop250 : Fragment() {
         })
     }
 
-//    fun bundle (actorList : Actor){
-//        val bundle = Bundle()
-//        bundle.putString("t" , actorList.image)
-//        bundle.putString("t" , actorList.asCharacter)
-//        bundle.putString("t" , actorList.name)
-//
-//    }
-
     private fun ui(titles: Titles) {
         tvTitles.text = titles.title
         tvRating.text = titles.imDbRating
@@ -136,7 +120,7 @@ class TitleTop250 : Fragment() {
         tvYear.text = titles.year
         tvDirector.text = titles.directors
         tvMetaCriticRating.text = titles.metacriticRating
-        tvBoxOffice.text = titles.boxOffice.budget
+        tvBoxOffice.text = titles.boxOffice.cumulativeWorldwideGross
         Glide.with(tvImageMovies.context).load(titles.image).into(tvImageMovies)
     }
         //связываем наши переменные с Data class
