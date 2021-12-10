@@ -22,8 +22,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
-
 class TitleTop250 : Fragment() {
 
     private lateinit var adapterPage: PageAdapter
@@ -58,7 +56,6 @@ class TitleTop250 : Fragment() {
         super.onViewCreated(view, savedInstanceState) //это вызов метода родительского класса, выполняющий необходимые процедуры.
 
         val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
-
 
         viewPager = view.findViewById(R.id.page)
         tabLayout = view.findViewById(R.id.tab_layout)
@@ -95,12 +92,12 @@ class TitleTop250 : Fragment() {
                     return
                 }
 
-                adapterPage = PageAdapter (this@TitleTop250,titleData)
+                adapterPage = PageAdapter (this@TitleTop250,titleData) // В Адаптер засовываем дата класс
                 viewPager.adapter = adapterPage
 
-                TabLayoutMediator(tabLayout, viewPager) {
-                        tab, position ->
-                    tab.text = tabTitle[position]
+                TabLayoutMediator(tabLayout, viewPager) { //показываем с чем нужно работать медиатору
+                        tab, position ->                //указываем в какой последовательности вставлять фразменты
+                    tab.text = tabTitle[position]       //указываем откуда брать название вкладок
                 }.attach()
 
                 ui(titlesItems)

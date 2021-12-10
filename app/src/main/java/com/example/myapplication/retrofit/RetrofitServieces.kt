@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RetrofitServices {
-    @GET("Top250Movies/k_k9cqlnuz") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
+    @GET("Top250Movies/k_02oxpdl1") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
     fun getMovieList (): retrofit2.Call<Items>
 
     //k_k9cqlnuz
@@ -19,7 +19,7 @@ interface RetrofitServices {
     //k_02oxpdl1
 
 
-    @GET("Title/k_k9cqlnuz/{id}/Images")
+    @GET("Title/k_02oxpdl1/{id}/Images")
     fun getTitleList (@Path("id") id: String): retrofit2.Call<Titles> //возвращает  Call  типа Titles
 }
 
