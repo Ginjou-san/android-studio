@@ -1,6 +1,5 @@
 package com.example.myapplication.adapter
 
-import Actor
 import Titles
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,15 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.FragmentPagePlot
 import com.example.myapplication.FragmentViewPagerActors
 
-
-
-
-
-
 class PageAdapter (fragment: Fragment, private val response: Titles) : FragmentStateAdapter(fragment) { //указываем в адаптаре что мы тут хотим увидить дата класс
-    override fun getItemCount(): Int {
-        return 2
-    }
+    override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {      //пепеиспользуем функцию createFragment (создание объектов )
         when (position) {
