@@ -84,14 +84,14 @@ class TitleTop250 : Fragment() {
         }
     }
 
-    private suspend fun getAllMovieList() {
-        val dataId = arguments?.getSerializable("f") as String
+    private suspend fun getAllMovieList() {         // даём котлину понять, что это suspend функция и она будет приостанавливать корутину.
+        val dataId = arguments?.getSerializable("f") as String  // arguments? вытаскиваем из бандла как строку
 
         kotlin.runCatching { withContext(Dispatchers.IO) {
             mService.getTitleList(dataId) } }
             .onSuccess { TestResponse ->
                 adapter = MyTitleAdapter(requireContext(),
-                    TestResponse.images.items)
+                    TestResponse.images.items) //указываю аргумент
                 rvFilms.adapter = adapter
 
                 ui(TestResponse)
