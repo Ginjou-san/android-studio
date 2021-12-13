@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface RetrofitServices {
     @GET("Top250Movies/k_ft56zq4q") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
-    fun getMovieList (): retrofit2.Call<Items>
+    suspend fun getMovieList (): Items
 
     //k_k9cqlnuz
     //k_ft56zq4q
@@ -21,7 +21,7 @@ interface RetrofitServices {
 
 
     @GET("Title/k_ft56zq4q/{id}/Images")
-    fun getTitleList (@Path("id") id: String): retrofit2.Call<Titles> //возвращает  Call  типа Titles
+ suspend fun getTitleList (@Path("id") id: String): Titles //возвращает  Call  типа Titles
 }
 
 //Парсинг — это процесс автоматического сбора данных и их структурирования.

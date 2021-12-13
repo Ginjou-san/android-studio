@@ -2,22 +2,28 @@ package com.example.myapplication
 
 import Titles
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.adapter.MyMovieAdapter
 import com.example.myapplication.adapter.MyTitleAdapter
 import com.example.myapplication.adapter.PageAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,41 +79,64 @@ class TitleTop250 : Fragment() {
 
         //связываем наши переменные с ID
 
-        getAllMovieList()// запрашиваем вызов функции getAllMovieList
+        viewLifecycleOwner.lifecycleScope.launch{
+            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+        }
     }
 
-    private fun getAllMovieList() {
-        val titleId = arguments?.getSerializable("f") as String        // arguments? вытаскиваем из бандла как строку
-        mService.getTitleList(titleId).enqueue(object : Callback<Titles>{  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
-            override fun onFailure(call: Call<Titles>, t: Throwable) {
-//                Log.i("test1", t.toString())
-            }
-            //Предопределяем метод onResponse в с лучае получение данных
-            override fun onResponse(call: Call<Titles>, response: Response<Titles>) {
-                val titlesItems = response.body()
-                if (titlesItems !=null) {
-                    titleData = titlesItems
-                }
-                if (titlesItems == null){
-                    return
-                }
+    private suspend fun getAllMovieList() {
+        val dataId = arguments?.getSerializable("f") as String
 
-                adapterPage = PageAdapter (this@TitleTop250,titleData) // В Адаптер засовываем дата класс
-                viewPager.adapter = adapterPage
-
-                TabLayoutMediator(tabLayout, viewPager) { //показываем с чем нужно работать медиатору
-                        tab, position ->                //указываем в какой последовательности вставлять фразменты
-                    tab.text = tabTitle[position]       //указываем откуда брать название вкладок
-                }.attach()
-
-                ui(titlesItems)
-
-                adapter = MyTitleAdapter (context!!, titlesItems.images.items)
-                adapter.notifyDataSetChanged()
+        kotlin.runCatching { withContext(Dispatchers.IO) {
+            mService.getTitleList(dataId) } }
+            .onSuccess { TestResponse ->
+                adapter = MyTitleAdapter(requireContext(),
+                    TestResponse.images.items)
                 rvFilms.adapter = adapter
 
+                ui(TestResponse)
+                adapterPage = PageAdapter (this,TestResponse)
+                viewPager.adapter = adapterPage
+
+                TabLayoutMediator(tabLayout, viewPager) {
+                        tab, position ->
+                        tab.text = tabTitle[position]
+                            }.attach()
             }
-        })
+            .onFailure { e->
+                Log.e("Response" , e.message,e)
+            }
+//        val titleId = arguments?.getSerializable("f") as String        // arguments? вытаскиваем из бандла как строку
+//        mService.getTitleList(titleId).enqueue(object : Callback<Titles>{  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
+//            override fun onFailure(call: Call<Titles>, t: Throwable) {
+//                Log.i("test1", t.toString())
+//            }
+//            //Предопределяем метод onResponse в с лучае получение данных
+//            override fun onResponse(call: Call<Titles>, response: Response<Titles>) {
+//                val titlesItems = response.body()
+//                if (titlesItems !=null) {
+//                    titleData = titlesItems
+//                }
+//                if (titlesItems == null){
+//                    return
+//                }
+//
+//                adapterPage = PageAdapter (this@TitleTop250,titleData) // В Адаптер засовываем дата класс
+//                viewPager.adapter = adapterPage
+//
+//                TabLayoutMediator(tabLayout, viewPager) { //показываем с чем нужно работать медиатру
+//                        tab, position ->                //указываем в какой последовательности вставлять фразменты
+//                    tab.text = tabTitle[position]       //указываем откуда брать название вкладок
+//                }.attach()
+//
+//                ui(titlesItems)
+//
+//                adapter = MyTitleAdapter (context!!, titlesItems.images.items)
+//                adapter.notifyDataSetChanged()
+//                rvFilms.adapter = adapter
+//
+//            }
+//        })
     }
 
     private fun ui(titles: Titles) {

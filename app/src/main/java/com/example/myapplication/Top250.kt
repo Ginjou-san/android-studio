@@ -1,11 +1,13 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +15,11 @@ import com.example.myapplication.adapter.MyMovieAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.databinding.FragmentTop250Binding
 import com.example.myapplication.model.Films
-import com.example.myapplication.model.Items
 import com.example.myapplication.retrofit.RetrofitServices
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class Top250 : Fragment(), OnFilmSelectListener {
     lateinit var mService: RetrofitServices
@@ -48,21 +50,36 @@ class Top250 : Fragment(), OnFilmSelectListener {
         layoutManager = LinearLayoutManager(context)
         rvFilms.layoutManager = layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
 
-        getAllMovieList() // запрашиваем вызов функции getAllMovieList
+        viewLifecycleOwner.lifecycleScope.launch{
+            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+        }
+
     }
 
-    private fun getAllMovieList() {
-        mService.getMovieList().enqueue(object : Callback<Items> { // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
-            override fun onFailure(call: Call<Items>, t: Throwable) {
+    private suspend fun getAllMovieList() {
+
+        kotlin.runCatching { withContext(Dispatchers.IO){
+            mService.getMovieList() } }
+            .onSuccess { response ->
+                adapter = MyMovieAdapter(requireContext(),
+                response.items,this)
+                    rvFilms.adapter = adapter
             }
-            //Предопределяем метод onResponse в с лучае получение данных
-            override fun onResponse(call: Call<Items>, response: Response<Items>){
-                val items = response.body()
-                adapter = MyMovieAdapter (context!!,items!!.items, this@Top250) //   // мы к adapter присваиваем MyMovieAdapter
-                adapter.notifyDataSetChanged()
-                rvFilms.adapter = adapter                   //К нашему списку мы присоединяем adapter и присваиваем adapter.
+            .onFailure { e ->
+                Log.e("Response" , e.message,e)
             }
-        })
+
+//        mService.getMovieList().enqueue(object : Callback<Items> { // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
+//            override fun onFailure(call: Call<Items>, t: Throwable) {
+//            }
+//            //Предопределяем метод onResponse в с лучае получение данных
+//            override fun onResponse(call: Call<Items>, response: Response<Items>){
+//                val items = response.body()
+//                adapter = MyMovieAdapter (context!!,items!!.items, this@Top250) //   // мы к adapter присваиваем MyMovieAdapter
+//                adapter.notifyDataSetChanged()
+//                rvFilms.adapter = adapter                   //К нашему списку мы присоединяем adapter и присваиваем adapter.
+//            }
+//        })
     }
 
     override fun onSelect (films: Films){
@@ -81,8 +98,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //присваиваем SpotsDialog присоединяем метод Builder после этого присоединяем метод setCancelablec c параметром true к этому
 //мы должны присоединить метод setContext c параметром this и присоединить метод build.
 
-
-
 //onAttach(Activity)
 //Вызывается, когда фрагмент связывается с активностью. С этого момента мы можем получить ссылку на активность через метод getActivity()
 //onCreate()
@@ -100,10 +115,29 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //Вызываем после onResume() активности
 //Вызывается, когда набор компонентов удаляется из фрагмента
 //onDetach()
-//Вызывается, когда фрагмент отвязывается от активности
-
+//Вызывается, когда фрагмент отвязывается от активности.
 
 //Корутины-Лёгкие потоки, представляют собой участок кода,
 //выполнение которого может быть приостановленно,
 //что бы выполнить какой либо другой участок кода,
 //а затем вернуться и довыполнить тот который был приостановлен.
+
+
+//линейный / реактивный подход
+
+//val a = fun1()
+//val b = fun2(object :)
+//val c = b * b
+//print(c)
+//
+//
+//listOf(fun1())
+//.map { a -> a * 2 }
+//.map { b -> fun2(b) }
+//.let { c ->
+//    print(c)
+//}
+
+//        flowOf(1, 2, 3)
+//            .map { it * it }
+//            .collect { res -> print(res) }
