@@ -9,32 +9,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.myapplication.adapter.MyMovieAdapter
 import com.example.myapplication.adapter.MyTitleAdapter
 import com.example.myapplication.adapter.PageAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
+import com.example.myapplication.viewModel.TitleTop250ViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlin.jvm.internal.MagicApiIntrinsics
 
 class TitleTop250 : Fragment() {
 
     private lateinit var adapterPage: PageAdapter
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
+    private val titleTop250ViewModel: TitleTop250ViewModel by viewModels()
     var tabTitle = arrayOf("Actors","Plot")
-    lateinit var titleData:Titles
+//    lateinit var titleData:Titles
     lateinit var mService: RetrofitServices
     lateinit var tvTitles: TextView
     lateinit var tvRating:TextView
@@ -59,9 +61,16 @@ class TitleTop250 : Fragment() {
     }   //inflater - указывает с какой конткретно XML мы работаем
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState) //это вызов метода родительского класса, выполняющий необходимые процедуры.
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        ) //это вызов метода родительского класса, выполняющий необходимые процедуры.
 
-        val horizontalScrollView = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
+        val horizontalScrollView = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )// в этой переменной укахываем чтоб horizontalScrollView был горизонтальным
 
         viewPager = view.findViewById(R.id.page)
         tabLayout = view.findViewById(R.id.tab_layout)
@@ -78,34 +87,52 @@ class TitleTop250 : Fragment() {
         tvImageMovies = view.findViewById(R.id.title_image_movie)
 
         //связываем наши переменные с ID
+        val dataId = arguments?.getSerializable("f") as String
+        viewLifecycleOwner.lifecycleScope.launch { //привязываем корутину, к жизненному циклу фрагмента (view)
+//            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+            titleTop250ViewModel.resultTitles.collect {
+                if (it != null) {
+                    titleTop250ViewModel.load(dataId)
+                    adapter = MyTitleAdapter(requireContext(),it.images.items)
+                    rvFilms.adapter = adapter
 
-        viewLifecycleOwner.lifecycleScope.launch{
-            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+                    ui(it)
+
+                    adapterPage = PageAdapter(this, it)
+                    viewPager.adapter = adapterPage
+
+
+                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                        tab.text = tabTitle[position]
+                    }.attach()
+                }
+            }
         }
     }
-
     private suspend fun getAllMovieList() {         // даём котлину понять, что это suspend функция и она будет приостанавливать корутину.
-        val dataId = arguments?.getSerializable("f") as String  // arguments? вытаскиваем из бандла как строку
+        val dataId = arguments?.getSerializable("t") as String  // arguments? вытаскиваем из бандла как строку
 
-        kotlin.runCatching { withContext(Dispatchers.IO) {
-            mService.getTitleList(dataId) } }
-            .onSuccess { TestResponse ->
-                adapter = MyTitleAdapter(requireContext(),
-                    TestResponse.images.items) //указываю аргумент
+        kotlin.runCatching {
+            withContext(Dispatchers.IO) {//переключаем контекст текущей сопрограммы, когда выполняется данный блок, сопрограмма переключается обратно в предыдущий контекст.Использует общий пул потоков, для ввода и вывода
+                mService.getTitleList(dataId)
+            }
+        } // указываем что у mService аргумент, getTitleList. И ссылаемся на ID
+            .onSuccess { TestResponse ->      //выполняем данное действие, если будет успех
+                adapter = MyTitleAdapter(requireContext(),TestResponse.images.items) //указываю аргумент
                 rvFilms.adapter = adapter
 
                 ui(TestResponse)
-                adapterPage = PageAdapter (this,TestResponse)
+                adapterPage = PageAdapter(this, TestResponse)
                 viewPager.adapter = adapterPage
 
-                TabLayoutMediator(tabLayout, viewPager) {
-                        tab, position ->
-                        tab.text = tabTitle[position]
-                            }.attach()
+                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                    tab.text = tabTitle[position]
+                }.attach()
             }
-            .onFailure { e->
-                Log.e("Response" , e.message,e)
+            .onFailure { e ->                    //выполняем данное действие, если будет ошибка
+                Log.e("Response", e.message, e)
             }
+    }
 //        val titleId = arguments?.getSerializable("f") as String        // arguments? вытаскиваем из бандла как строку
 //        mService.getTitleList(titleId).enqueue(object : Callback<Titles>{  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
 //            override fun onFailure(call: Call<Titles>, t: Throwable) {
@@ -137,7 +164,7 @@ class TitleTop250 : Fragment() {
 //
 //            }
 //        })
-    }
+//    }
 
     private fun ui(titles: Titles) {
         tvTitles.text = titles.title

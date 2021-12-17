@@ -6,11 +6,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RetrofitServices {
-    @GET("Top250Movies/k_ft56zq4q") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
+    @GET("Top250Movies/k_268n9v89") //Создаем Get запрос в скобках пишем кавычки, а в кавычках указывает ветку с которой будем парсить данные
     suspend fun getMovieList (): Items
 
     //k_k9cqlnuz
     //k_ft56zq4q
+    //k_268n9v89
 
     //k_s6v0rpcs
     //k_mr8md7ge

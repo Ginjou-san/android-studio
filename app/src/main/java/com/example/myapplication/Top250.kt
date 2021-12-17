@@ -1,12 +1,13 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,20 +17,39 @@ import com.example.myapplication.common.Common
 import com.example.myapplication.databinding.FragmentTop250Binding
 import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
+import android.widget.ProgressBar
+import com.example.myapplication.viewModel.MovieTop250ViewModel
 
 class Top250 : Fragment(), OnFilmSelectListener {
+    private val top250ViewModel: MovieTop250ViewModel by viewModels()
     lateinit var mService: RetrofitServices
     lateinit var adapter: MyMovieAdapter
+    lateinit var numberTextView: TextView
+    lateinit var endTime : TextView
     lateinit var layoutManager: LinearLayoutManager
     lateinit var rvFilms: RecyclerView
     private var _binding: FragmentTop250Binding? = null
     private val binding get() = _binding!!
 
+//    private val viewModel: Top250ViewModel by viewModels()
+
 //    Создаем переменные, и чтобы не объявлять их типа null объявим их через lateinit var
+
+//  val adapter = Adapter { movie ->
+//
+//    }
+//}
+//  interface OnSelectLister {
+//    fun onSelect(item: Films): Boolean
+//}
+//  class Adapter(listener: (Films) -> Boolean) {
+//
+//    init {
+//        listener(ITEM)
+//    }
+//}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,31 +63,57 @@ class Top250 : Fragment(), OnFilmSelectListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val progressBar = view.findViewById(R.id.progressBar) as ProgressBar
+        progressBar.visibility = ProgressBar.VISIBLE
 
-        rvFilms = view.findViewById(R.id.list)  //указываем что переменная rvFilms равна ID list
+        rvFilms = view.findViewById(R.id.list) //указываем что переменная rvFilms равна ID list
+        numberTextView = view.findViewById(R.id.number_list)
+        endTime = view.findViewById(R.id.time_list)
         mService = Common.retrofitService       //В методе onViewCreated мы к RetrofitServices присваиваем Common.retrofitServices.
-        rvFilms.setHasFixedSize (true)          //recyclerView мы присоединяем  setHasFixedSize(true) благодаря этому методу мы сможем оптимизировать свой список
+        rvFilms.setHasFixedSize (true)  //recyclerView мы присоединяем  setHasFixedSize(true) благодаря этому методу мы сможем оптимизировать свой список
         layoutManager = LinearLayoutManager(context)
         rvFilms.layoutManager = layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
 
         viewLifecycleOwner.lifecycleScope.launch{
-            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+            top250ViewModel._result.collect {
+                if (it != null){
+                adapter = MyMovieAdapter(requireContext(), it,this@Top250) //requireContext возвращает ненулевое значение
+                rvFilms.adapter = adapter
+
+                    progressBar.visibility = ProgressBar.INVISIBLE
+
+                    viewLifecycleOwner.lifecycleScope.launch{
+                        top250ViewModel.numberList.collect {
+                            numberTextView.text = it.toString()
+                        }
+                    }
+
+                    viewLifecycleOwner.lifecycleScope.launch{
+                        top250ViewModel.numberList.collect {
+                            numberTextView.text = it.toString()
+                        }
+                    }
+
+                    viewLifecycleOwner.lifecycleScope.launch{
+                        top250ViewModel.timeList.collect {
+                            endTime.text = it.toString()
+                        }
+                    }
+                }
+            }
         }
-
     }
-
-    private suspend fun getAllMovieList() {
-
-        kotlin.runCatching { withContext(Dispatchers.IO){
-            mService.getMovieList() } }
-            .onSuccess { response ->
-                adapter = MyMovieAdapter(requireContext(),
-                response.items,this)
-                    rvFilms.adapter = adapter
-            }
-            .onFailure { e ->
-                Log.e("Response" , e.message,e)
-            }
+//    private suspend fun getAllMovieList() {
+//
+//        kotlin.runCatching { withContext(Dispatchers.IO){
+//            mService.getMovieList() } }
+//            .onSuccess { response ->
+//                adapter = MyMovieAdapter(requireContext(), response.items,this)
+//                    rvFilms.adapter = adapter
+//            }
+//            .onFailure { e ->
+//                Log.e("Response" , e.message,e)
+//            }
 
 //        mService.getMovieList().enqueue(object : Callback<Items> { // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
 //            override fun onFailure(call: Call<Items>, t: Throwable) {
@@ -80,7 +126,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //                rvFilms.adapter = adapter                   //К нашему списку мы присоединяем adapter и присваиваем adapter.
 //            }
 //        })
-    }
+//    }
 
     override fun onSelect (films: Films){
         val bundle = Bundle()

@@ -10,6 +10,9 @@
     <string name="pager_name">Name:</string>
     <string name="pager_as_character">Character:</string>
     <string name="page_plot">PLOT:</string>
+    <string name="movie_many">how many films:</string>
+    <string name="time_list_text">Time to load:</string>
+    <string name="milli_text">milliseconds</string>
 
 
 </resources>
