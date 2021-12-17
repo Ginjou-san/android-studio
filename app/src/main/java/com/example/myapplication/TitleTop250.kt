@@ -20,6 +20,7 @@ import com.example.myapplication.adapter.MyTitleAdapter
 import com.example.myapplication.adapter.PageAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
+import com.example.myapplication.viewModel.ActorsViewModel
 import com.example.myapplication.viewModel.TitleTop250ViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -88,8 +89,10 @@ class TitleTop250 : Fragment() {
 
         //связываем наши переменные с ID
         val dataId = arguments?.getSerializable("f") as String
+
+
         viewLifecycleOwner.lifecycleScope.launch { //привязываем корутину, к жизненному циклу фрагмента (view)
-//            getAllMovieList() // запрашиваем вызов функции getAllMovieList
+
             titleTop250ViewModel.resultTitles.collect {
                 if (it != null) {
                     titleTop250ViewModel.load(dataId)
@@ -98,8 +101,8 @@ class TitleTop250 : Fragment() {
 
                     ui(it)
 
-                    adapterPage = PageAdapter(this, it)
-                    viewPager.adapter = adapterPage
+//                    adapterPage = PageAdapter(this@TitleTop250, it)
+//                    viewPager.adapter = adapterPage
 
 
                     TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -107,32 +110,36 @@ class TitleTop250 : Fragment() {
                     }.attach()
                 }
             }
+//            ActorsViewModel
+//            adapterPage = PageAdapter(this@TitleTop250, it)
+//            viewPager.adapter = adapterPage
         }
+        titleTop250ViewModel.load(dataId)
     }
-    private suspend fun getAllMovieList() {         // даём котлину понять, что это suspend функция и она будет приостанавливать корутину.
-        val dataId = arguments?.getSerializable("t") as String  // arguments? вытаскиваем из бандла как строку
-
-        kotlin.runCatching {
-            withContext(Dispatchers.IO) {//переключаем контекст текущей сопрограммы, когда выполняется данный блок, сопрограмма переключается обратно в предыдущий контекст.Использует общий пул потоков, для ввода и вывода
-                mService.getTitleList(dataId)
-            }
-        } // указываем что у mService аргумент, getTitleList. И ссылаемся на ID
-            .onSuccess { TestResponse ->      //выполняем данное действие, если будет успех
-                adapter = MyTitleAdapter(requireContext(),TestResponse.images.items) //указываю аргумент
-                rvFilms.adapter = adapter
-
-                ui(TestResponse)
-                adapterPage = PageAdapter(this, TestResponse)
-                viewPager.adapter = adapterPage
-
-                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                    tab.text = tabTitle[position]
-                }.attach()
-            }
-            .onFailure { e ->                    //выполняем данное действие, если будет ошибка
-                Log.e("Response", e.message, e)
-            }
-    }
+//    private suspend fun getAllMovieList() {         // даём котлину понять, что это suspend функция и она будет приостанавливать корутину.
+//        val dataId = arguments?.getSerializable("t") as String  // arguments? вытаскиваем из бандла как строку
+//
+//        kotlin.runCatching {
+//            withContext(Dispatchers.IO) {//переключаем контекст текущей сопрограммы, когда выполняется данный блок, сопрограмма переключается обратно в предыдущий контекст.Использует общий пул потоков, для ввода и вывода
+//                mService.getTitleList(dataId)
+//            }
+//        } // указываем что у mService аргумент, getTitleList. И ссылаемся на ID
+//            .onSuccess { TestResponse ->      //выполняем данное действие, если будет успех
+//                adapter = MyTitleAdapter(requireContext(),TestResponse.images.items) //указываю аргумент
+//                rvFilms.adapter = adapter
+//
+//                ui(TestResponse)
+//                adapterPage = PageAdapter(this, TestResponse)
+//                viewPager.adapter = adapterPage
+//
+//                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+//                    tab.text = tabTitle[position]
+//                }.attach()
+//            }
+//            .onFailure { e ->                    //выполняем данное действие, если будет ошибка
+//                Log.e("Response", e.message, e)
+//            }
+//    }
 //        val titleId = arguments?.getSerializable("f") as String        // arguments? вытаскиваем из бандла как строку
 //        mService.getTitleList(titleId).enqueue(object : Callback<Titles>{  // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
 //            override fun onFailure(call: Call<Titles>, t: Throwable) {

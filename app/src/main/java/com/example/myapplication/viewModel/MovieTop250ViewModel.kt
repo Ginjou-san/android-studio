@@ -22,7 +22,6 @@ class MovieTop250ViewModel: ViewModel() {
     val numberList = MutableStateFlow(0)
     val timeList = MutableStateFlow(0)
 
-
     init {
         viewModelScope.launch {
             delay(2000)
@@ -42,5 +41,4 @@ class MovieTop250ViewModel: ViewModel() {
                 }
         }
     }
-
 }
