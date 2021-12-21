@@ -2,6 +2,7 @@ package com.example.myapplication.viewModel
 
 import Titles
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.common.Common
@@ -11,25 +12,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TitleTop250ViewModel: ViewModel() {
+class TitleTop250ViewModel(State: SavedStateHandle): ViewModel() {
 
     private val retrofit : RetrofitServices = Common.retrofitService
 
     val resultTitles = MutableStateFlow<Titles?>(null)
 
 
-    fun load (id: String) {
-        viewModelScope.launch {
-            kotlin.runCatching { withContext (Dispatchers.IO){
-                retrofit.getTitleList(id)
-                 } }
+    init {
 
+
+        viewModelScope.launch {
+            kotlin.runCatching {
+                withContext(Dispatchers.IO) {
+                    State.get<String>("d")?.let { retrofit.getTitleList(it) } }
+            }
                 .onSuccess {
                     resultTitles.value = it
-                }
+                    Log.e("Response", "title")
+            }
                 .onFailure { e ->
-                    Log.e("Response", e.message,e)
-                }
-        }
+                 Log.e("Response", e.message, e)
+            } }
     }
 }

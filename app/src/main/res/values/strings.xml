@@ -12,7 +12,8 @@
     <string name="page_plot">PLOT:</string>
     <string name="movie_many">how many films:</string>
     <string name="time_list_text">Time to load:</string>
-    <string name="milli_text">milliseconds</string>
+    <string name="milli_text">ms</string>
+    <string name="search">Search...</string>
 
 
 </resources>

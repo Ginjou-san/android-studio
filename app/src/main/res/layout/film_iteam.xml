@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="8dp"
+    app:cardCornerRadius="15dp"
     android:layout_margin="8dp"
     tools:context=".Top250">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="260dp">
+        android:layout_height="260dp"
+        android:background="@color/maroon">
 
         <ImageView
             android:id="@+id/image_movie"
@@ -72,18 +74,33 @@
             android:id="@+id/year"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="50dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/imDbRating"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@+id/image_movie"
             app:layout_constraintTop_toBottomOf="@+id/fullTitle"
             app:layout_constraintVertical_weight="0.7"
             tools:text="year" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:scaleType="centerCrop"
+            android:background="@color/maroon"
+            android:onClick="buttonPressed"
+            app:layout_constraintBottom_toTopOf="@+id/imDbRating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/year"
+            app:layout_constraintTop_toBottomOf="@+id/fullTitle"
+            android:src="@drawable/selector_like">
+
+        </ImageButton>
 
         <TextView
             android:id="@+id/imDbRating"

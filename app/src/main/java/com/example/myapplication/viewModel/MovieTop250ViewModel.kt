@@ -16,29 +16,47 @@ import kotlinx.coroutines.withContext
 
 class MovieTop250ViewModel: ViewModel() {
 
-    private val retrofit : RetrofitServices = Common.retrofitService
+    private val retrofit: RetrofitServices = Common.retrofitService
 
-    val _result = MutableStateFlow<List<Films>?>(null)
+    val resultMovie = MutableStateFlow<List<Films>?>(null)
+    var textSearch : List<Films>? = null
+
     val numberList = MutableStateFlow(0)
     val timeList = MutableStateFlow(0)
 
     init {
         viewModelScope.launch {
             delay(2000)
-            kotlin.runCatching { withContext (Dispatchers.IO){
-                retrofit.getMovieList() } }
-
+            kotlin.runCatching {
+                withContext(Dispatchers.IO) {
+                    retrofit.getMovieList()
+                }
+            }
                 .onSuccess {
                     val startTime = System.currentTimeMillis()
                     val result = retrofit.getMovieList()
-                    _result.value = result.items
-                    numberList.value = _result.value!!.size
+
+                    resultMovie.value = result.items
+                    textSearch = result.items
+                    numberList.value = resultMovie.value!!.size
                     val totalTime = System.currentTimeMillis() - startTime
                     timeList.value = totalTime.toInt()
+                    Log.e("Response", "MovieSuccess")
                 }
                 .onFailure { e ->
-                    Log.e("Response" , e.message,e)
+                    Log.e("Response", e.message, e)
                 }
         }
     }
+
+    fun clear (){
+        resultMovie.value = textSearch
+    }
+
+    fun search(tearn: String) {
+       val y =  textSearch?.filter{it.title.contains(tearn, ignoreCase = true)}
+        resultMovie.value = y
+    }
 }
+
+

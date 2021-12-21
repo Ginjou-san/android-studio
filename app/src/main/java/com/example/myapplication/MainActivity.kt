@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.MyMovieAdapter
@@ -15,6 +17,8 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+    private var paused = true
+
     override fun onCreate(savedInstanceState: Bundle?) { //он вызывается, когда приложение создает и отображает Activity
     super.onCreate(savedInstanceState)//это вызов метода родительского класса, выполняющий необходимые процедуры, его мы не трогаем.
 
@@ -23,7 +27,23 @@ class MainActivity : AppCompatActivity() {
     // Эта константа генерируется автоматически в файле R.java, который мы пока трогать не будем.
     // В этом классе будут храниться сгенерированные ID для всех ресурсов проекта (из папки res/*), чтобы мы могли к ним обращаться.
     // Имена этих ID-констант совпадают с именами файлов ресурсов (без расширений).
+
+
 }
+    fun buttonPressed(view: android.view.View) {
+        val button = view as ImageButton
+        val icon: Int
+        if (paused) {
+            paused = false
+            icon = R.drawable.star_like
+        }
+        else {
+            paused = true
+            icon = R.drawable.selector_like
+        }
+        button.setImageDrawable(
+            ContextCompat.getDrawable(applicationContext, icon))
+    }
 }
 
 
