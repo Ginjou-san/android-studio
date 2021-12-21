@@ -1,12 +1,13 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,7 +20,6 @@ import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import android.widget.ProgressBar
 import com.example.myapplication.viewModel.MovieTop250ViewModel
 
 class Top250 : Fragment(), OnFilmSelectListener {
@@ -32,6 +32,10 @@ class Top250 : Fragment(), OnFilmSelectListener {
     lateinit var rvFilms: RecyclerView
     private var _binding: FragmentTop250Binding? = null
     private val binding get() = _binding!!
+    lateinit var editText: EditText
+    lateinit var searchButton: ImageButton
+
+
 
 //    private val viewModel: Top250ViewModel by viewModels()
 
@@ -66,6 +70,8 @@ class Top250 : Fragment(), OnFilmSelectListener {
         val progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.visibility = ProgressBar.VISIBLE
 
+        searchButton = view.findViewById(R.id.search_button)
+        editText =  view.findViewById(R.id.edit_text)
         rvFilms = view.findViewById(R.id.list) //указываем что переменная rvFilms равна ID list
         numberTextView = view.findViewById(R.id.number_list)
         endTime = view.findViewById(R.id.time_list)
@@ -74,19 +80,14 @@ class Top250 : Fragment(), OnFilmSelectListener {
         layoutManager = LinearLayoutManager(context)
         rvFilms.layoutManager = layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
 
+
         viewLifecycleOwner.lifecycleScope.launch{
-            top250ViewModel._result.collect {
+            top250ViewModel.resultMovie.collect {
                 if (it != null){
                 adapter = MyMovieAdapter(requireContext(), it,this@Top250) //requireContext возвращает ненулевое значение
                 rvFilms.adapter = adapter
 
                     progressBar.visibility = ProgressBar.INVISIBLE
-
-                    viewLifecycleOwner.lifecycleScope.launch{
-                        top250ViewModel.numberList.collect {
-                            numberTextView.text = it.toString()
-                        }
-                    }
 
                     viewLifecycleOwner.lifecycleScope.launch{
                         top250ViewModel.numberList.collect {
@@ -102,7 +103,37 @@ class Top250 : Fragment(), OnFilmSelectListener {
                 }
             }
         }
+        searchButton.setOnClickListener {
+            editText.setText("")
+        }
+
+        editText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateSearch()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+        })
     }
+
+    private fun updateSearch() {
+        val s = editText.text.toString()
+
+        if (s.length == 0) {
+            top250ViewModel.clear()
+            searchButton.visibility = View.GONE
+        } else {
+            top250ViewModel.search(s)
+            searchButton.visibility = View.VISIBLE
+        }
+    }
+
 //    private suspend fun getAllMovieList() {
 //
 //        kotlin.runCatching { withContext(Dispatchers.IO){
@@ -130,13 +161,14 @@ class Top250 : Fragment(), OnFilmSelectListener {
 
     override fun onSelect (films: Films){
         val bundle = Bundle()
-        bundle.putSerializable("f", films.id) // засовываем в бандл ключ, и передаём ID
+        bundle.putSerializable("d", films.id) // засовываем в бандл ключ, и передаём ID
         findNavController().navigate(R.id.action_top250_layout_to_title_250, bundle)// указываем переход с одного фрагмента на другой
         Toast.makeText(requireContext(),films.fullTitle,Toast.LENGTH_LONG).show()  // фрагмент который будет высвечиваться при открытие второй страницы
 //        Log.i("test1", films.toString())
 
     }
 }
+
 //getString
 //Layout Manager — это вещь, которая отвечает позиционирование View компонентов,
 //которые больше не видны пользователю. Далее все также легко к нашему списку присоединяем layoutManager и уже к этому присваиваем

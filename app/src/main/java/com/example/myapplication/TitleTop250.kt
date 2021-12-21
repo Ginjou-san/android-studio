@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -21,14 +21,13 @@ import com.example.myapplication.adapter.PageAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.retrofit.RetrofitServices
 import com.example.myapplication.viewModel.ActorsViewModel
+import com.example.myapplication.viewModel.PlotViewModel
 import com.example.myapplication.viewModel.TitleTop250ViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.jvm.internal.MagicApiIntrinsics
+
 
 class TitleTop250 : Fragment() {
 
@@ -36,6 +35,8 @@ class TitleTop250 : Fragment() {
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
     private val titleTop250ViewModel: TitleTop250ViewModel by viewModels()
+//    private val actorsViewModel: ActorsViewModel by viewModels()
+//    private val PlotViewModel: PlotViewModel by viewModels()
     var tabTitle = arrayOf("Actors","Plot")
 //    lateinit var titleData:Titles
     lateinit var mService: RetrofitServices
@@ -88,33 +89,34 @@ class TitleTop250 : Fragment() {
         tvImageMovies = view.findViewById(R.id.title_image_movie)
 
         //связываем наши переменные с ID
-        val dataId = arguments?.getSerializable("f") as String
+//        val dataId = arguments?.getSerializable("f") as String
 
 
         viewLifecycleOwner.lifecycleScope.launch { //привязываем корутину, к жизненному циклу фрагмента (view)
 
             titleTop250ViewModel.resultTitles.collect {
                 if (it != null) {
-                    titleTop250ViewModel.load(dataId)
+
+//                    rvFilms.adapter = MyTitleAdapter(requireContext(),it.images.items)
+//                    titleTop250ViewModel.load(dataId)
                     adapter = MyTitleAdapter(requireContext(),it.images.items)
                     rvFilms.adapter = adapter
 
+
                     ui(it)
 
-//                    adapterPage = PageAdapter(this@TitleTop250, it)
-//                    viewPager.adapter = adapterPage
-
+                    adapterPage = PageAdapter(this@TitleTop250, it)
+                    viewPager.adapter = adapterPage
 
                     TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                         tab.text = tabTitle[position]
                     }.attach()
                 }
             }
-//            ActorsViewModel
-//            adapterPage = PageAdapter(this@TitleTop250, it)
-//            viewPager.adapter = adapterPage
+
         }
-        titleTop250ViewModel.load(dataId)
+//        titleTop250ViewModel.load(dataId)
+
     }
 //    private suspend fun getAllMovieList() {         // даём котлину понять, что это suspend функция и она будет приостанавливать корутину.
 //        val dataId = arguments?.getSerializable("t") as String  // arguments? вытаскиваем из бандла как строку

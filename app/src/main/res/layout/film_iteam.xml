@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="8dp"
+    app:cardCornerRadius="15dp"
     android:layout_margin="8dp"
     tools:context=".Top250">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="260dp">
+        android:layout_height="260dp"
+        android:background="@color/maroon">
 
         <ImageView
             android:id="@+id/image_movie"

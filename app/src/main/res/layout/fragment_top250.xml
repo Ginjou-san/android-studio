@@ -5,6 +5,7 @@
     android:id="@+id/fragment_title2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkSlateGrey"
     tools:context=".TitleTop250">
 
     <ProgressBar
@@ -87,17 +88,48 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="999" />
 
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="10dp"
+        android:hint="@string/search"
+        android:paddingStart="10dp"
+        android:textSize="17sp"
+        android:background="@drawable/custom_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meny_list">
 
+    </EditText>
+
+
+    <ImageButton
+        android:id="@+id/search_button"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_text"
+        app:layout_constraintTop_toTopOf="@+id/edit_text"
+        app:srcCompat="@drawable/x" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number_list">
+        app:layout_constraintTop_toBottomOf="@+id/edit_text">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
