@@ -75,7 +75,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
         rvFilms.layoutManager = layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
 
         viewLifecycleOwner.lifecycleScope.launch{
-            top250ViewModel._result.collect {
+            top250ViewModel.resultMovie.collect {
                 if (it != null){
                 adapter = MyMovieAdapter(requireContext(), it,this@Top250) //requireContext возвращает ненулевое значение
                 rvFilms.adapter = adapter
