@@ -1,8 +1,11 @@
 package com.example.myapplication.adapter
 import android.content.Context
+import android.text.Editable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,7 @@ import com.example.myapplication.model.Films
 
 class MyMovieAdapter(private val context: Context,private val movieList: List<Films>, private val listener: OnFilmSelectListener):RecyclerView.Adapter<MyMovieAdapter.MyViewHolder>() {
 //В классе MyMovieAdapter создаем переменные, которые будут доступны только в этом классе (private val movieList: List типа Films) и указываем тип возвращаемого значения
+    lateinit var starButton: ImageButton
 
     class MyViewHolder (itemView: View, val listener: OnFilmSelectListener):RecyclerView.ViewHolder(itemView){
 
@@ -41,10 +45,24 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.film_iteam,parent,false)
+        starButton = itemView.findViewById(R.id.starButton)
+
+        starButton.setOnClickListener {
+            insertDataToDatabase() }
+
         //Создаем переменную itemView присваиваем ей LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         //и возвращаем MyViewHolder с параметром itemView.
 
     return MyViewHolder(itemView, listener)
+    }
+
+    private fun insertDataToDatabase(){
+        val likeButton = starButton
+
+        if (inputCheck(likeButton)){
+
+        }
+
     }
 
     override fun getItemCount() = movieList.size //Далее мы переделываем getItemCount() в override fun getItemCount() = movieList.size.
@@ -53,4 +71,22 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
         val listItem = movieList[position] //в теле создаем переменную listItem: Movie и присваиваем movieList[position].
         holder.bind(listItem) //Далее к holder присоединяем метод bind с параметрами listItem.
     }
+
+//    starButton.setOnClickListener{
+//        it.isSelected = it.isSelected.not()
+//
+//        sharedPreferences.edit().putBoolean(it.isSelected).apply()
+//    }
+//    val db = Room.databaseBuilder(
+//        applicationContext,
+//        AppDatabase::class.java, "database-name"
+//    ).build()
+//    //&& (И)
+
+    private fun inputCheck(starButton: Boolean): Boolean{
+        return !(TextUtils.isEmpty(starButton) && TextUtils.isEmpty(lastName) && age.isEmpty())
+    }
+
+
 }
+

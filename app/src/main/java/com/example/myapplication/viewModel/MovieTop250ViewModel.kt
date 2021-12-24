@@ -1,12 +1,15 @@
 package com.example.myapplication.viewModel
 
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.room.FilmsRepository
 import com.example.myapplication.common.Common
 import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
+import com.example.myapplication.room.FilmsDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,12 +17,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MovieTop250ViewModel: ViewModel() {
+class MovieTop250ViewModel(application: Application, private var repository: FilmsRepository): ViewModel() {
 
     private val retrofit: RetrofitServices = Common.retrofitService
-
-    val resultMovie = MutableStateFlow<List<Films>?>(null)
+    var resultMovie = MutableStateFlow<List<Films>?>(null)
     var textSearch : List<Films>? = null
+
 
     val numberList = MutableStateFlow(0)
     val timeList = MutableStateFlow(0)
@@ -35,6 +38,9 @@ class MovieTop250ViewModel: ViewModel() {
                 .onSuccess {
                     val startTime = System.currentTimeMillis()
                     val result = retrofit.getMovieList()
+                    val movieDao = FilmsDatabase.getDatabase(application).DaoFilms()
+                    repository = FilmsRepository(movieDao)
+                    resultMovie = repository.readAllData
 
                     resultMovie.value = result.items
                     textSearch = result.items
@@ -54,7 +60,7 @@ class MovieTop250ViewModel: ViewModel() {
     }
 
     fun search(tearn: String) {
-       val y =  textSearch?.filter{it.title.contains(tearn, ignoreCase = true)}
+        val y =  textSearch?.filter{it.title.contains(tearn, ignoreCase = true)}
         resultMovie.value = y
     }
 }
