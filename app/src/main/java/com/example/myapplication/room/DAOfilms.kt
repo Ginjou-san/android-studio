@@ -3,6 +3,8 @@ package com.example.myapplication.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.myapplication.model.Films
+import kotlinx.coroutines.flow.MutableStateFlow
+
 @Dao
 interface DaoFilms {
 
@@ -10,9 +12,7 @@ interface DaoFilms {
     suspend fun addFilms(user: FilmsId)
 
     @Query("SELECT * FROM FILMS_TABLE ORDER BY id ASC")//
-    fun readAllData():List<Films>
-
-
+    fun readAllData(): MutableStateFlow<List<Films>?>
 
 //    @Delete
 //    fun delete(Film: FilmsId)

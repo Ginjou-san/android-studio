@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class FragmentViewPagerActors() : Fragment() {
+class FragmentViewPagerActors: Fragment() {
     private val actorsViewModel: ActorsViewModel by viewModels()
 
     lateinit var rvActors: RecyclerView

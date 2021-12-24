@@ -1,7 +1,5 @@
 package com.example.myapplication.adapter
 import android.content.Context
-import android.text.Editable
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,9 +57,9 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
     private fun insertDataToDatabase(){
         val likeButton = starButton
 
-        if (inputCheck(likeButton)){
-
-        }
+//        if (inputCheck(likeButton)){
+//
+//        }
 
     }
 
@@ -83,9 +81,9 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 //    ).build()
 //    //&& (И)
 
-    private fun inputCheck(starButton: Boolean): Boolean{
-        return !(TextUtils.isEmpty(starButton) && TextUtils.isEmpty(lastName) && age.isEmpty())
-    }
+//    private fun inputCheck(starButton: Boolean): Boolean{
+//        return !(TextUtils.isEmpty(starButton) && TextUtils.isEmpty(lastName) && age.isEmpty())
+//    }
 
 
 }
