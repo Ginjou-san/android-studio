@@ -9,5 +9,6 @@ data class Films (
     val image: String,
     val crew: String,
     val imDbRating: Float ,
-    val imDbRatingCount: Int
+    val imDbRatingCount: Int,
+    val favorite: Boolean
 )
