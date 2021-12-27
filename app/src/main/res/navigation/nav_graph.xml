@@ -26,20 +26,20 @@
         <action
             android:id="@+id/action_title_250_to_top250_layout"
             app:destination="@id/top250_layout" />
-        <action
-            android:id="@+id/action_title_250_to_pager_actors"
-            app:destination="@id/pager_actors" />
+<!--        <action-->
+<!--            android:id="@+id/action_title_250_to_pager_actors"-->
+<!--            app:destination="@id/pager_actors" />-->
     </fragment>
 
-    <fragment
-        android:id="@+id/pager_actors"
-        android:name="com.example.myapplication.FragmentViewPagerActors"
-        android:label="First Fragment"
-        tools:layout="@layout/recycler_view_actors">
+<!--    <fragment-->
+<!--        android:id="@+id/pager_actors"-->
+<!--        android:name="com.example.myapplication.FragmentViewPagerActors"-->
+<!--        android:label="First Fragment"-->
+<!--        tools:layout="@layout/recycler_view_actors">-->
 
 
 
-    </fragment>
+<!--    </fragment>-->
 
 
 </navigation>

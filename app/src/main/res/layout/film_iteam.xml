@@ -1,4 +1,5 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,6 +7,7 @@
     app:cardElevation="8dp"
     app:cardCornerRadius="15dp"
     android:layout_margin="8dp"
+    android:id="@+id/film_iteam"
     tools:context=".Top250">
 
     <androidx.constraintlayout.widget.ConstraintLayout

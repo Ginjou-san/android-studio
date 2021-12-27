@@ -16,12 +16,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.MyMovieAdapter
 import com.example.myapplication.common.Common
 import com.example.myapplication.databinding.FragmentTop250Binding
-import com.example.myapplication.OnFilmSelectListener
+import com.example.myapplication.data.FilmsDatabase
+import com.example.myapplication.data.FilmsDatabase.Companion.getDatabase
+import com.example.myapplication.data.FilmsId
 import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.example.myapplication.viewModel.MovieTop250ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class Top250 : Fragment(), OnFilmSelectListener {
     private val top250ViewModel: MovieTop250ViewModel by viewModels()
@@ -35,6 +39,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
     private val binding get() = _binding!!
     lateinit var editText: EditText
     lateinit var searchButton: ImageButton
+     lateinit var  addFilm : FilmsDatabase
 
 //    private val viewModel: Top250ViewModel by viewModels()
 
@@ -70,6 +75,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
         val progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.visibility = ProgressBar.VISIBLE
 
+        addFilm = context?.let { getDatabase(it) }!!
         searchButton = view.findViewById(R.id.search_button)
         editText =  view.findViewById(R.id.edit_text)
         rvFilms = view.findViewById(R.id.list) //указываем что переменная rvFilms равна ID list
@@ -93,7 +99,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
                             numberTextView.text = it.toString()
                         }
                     }
-
                     viewLifecycleOwner.lifecycleScope.launch{
                         top250ViewModel.timeList.collect {
                             endTime.text = it.toString()
@@ -107,7 +112,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
         }
         editText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -115,7 +119,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
             }
         })
     }
@@ -131,7 +134,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
             searchButton.visibility = View.VISIBLE
         }
     }
-
 //    private suspend fun getAllMovieList() {
 //
 //        kotlin.runCatching { withContext(Dispatchers.IO){
@@ -157,13 +159,29 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //        })
 //    }
 
-    override fun onSelect (films: Films){
+    override fun onSelect (films: Films){//показываем что она принимает
         val bundle = Bundle()
         bundle.putSerializable("d", films.id) // засовываем в бандл ключ, и передаём ID
         findNavController().navigate(R.id.action_top250_layout_to_title_250, bundle)// указываем переход с одного фрагмента на другой
         Toast.makeText(requireContext(),films.fullTitle,Toast.LENGTH_LONG).show()  // фрагмент который будет высвечиваться при открытие второй страницы
 //        Log.i("test1", films.toString())
 
+    }
+
+    override fun onBase(film: Films) {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            withContext(Dispatchers.IO) {
+                addFilm.daoFilms().insert(FilmsId(film.id))
+            }
+        }
+    }
+
+    override fun onDelete(film: Films) {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            withContext(Dispatchers.IO) {
+                addFilm.daoFilms().delete(FilmsId(film.id))
+            }
+        }
     }
 }
 

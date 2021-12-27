@@ -1,6 +1,5 @@
 package com.example.myapplication.viewModel
 
-
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,13 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+class MovieTop250ViewModel: ViewModel() {
 
-class MovieTop250ViewModel(): ViewModel() {
-//    private var repository: FilmsRepository
     private val retrofit: RetrofitServices = Common.retrofitService
     var resultMovie = MutableStateFlow<List<Films>?>(null)
     var textSearch : List<Films>? = null
-
 
     val numberList = MutableStateFlow(0)
     val timeList = MutableStateFlow(0)
@@ -35,9 +32,6 @@ class MovieTop250ViewModel(): ViewModel() {
                 .onSuccess {
                     val startTime = System.currentTimeMillis()
                     val result = retrofit.getMovieList()
-//                    val movieDao = FilmsDatabase.getDatabase(application).DaoFilms()
-//                    repository = FilmsRepository(movieDao)
-//                    resultMovie = repository.readAllData
 
                     resultMovie.value = result.items
                     textSearch = result.items

@@ -8,13 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 interface DaoFilms {
 
     @Insert( onConflict = OnConflictStrategy.IGNORE)//проверка на то что бы не было одинаковых фильмов
-    suspend fun addFilms(user: FilmsId)
+     fun insert(film: FilmsId)
 
-    @Query("SELECT * FROM FILMS_TABLE ORDER BY id ASC")//
-    fun readAllData(): MutableStateFlow<List<Films>?>
 
-//    @Delete
-//    fun delete(Film: FilmsId)
+//    @Query("SELECT * FROM FILMS_TABLE ORDER BY id ASC")//
+//    fun readAllData(): List<Films>?
+
+    @Delete
+    fun delete(Film: FilmsId)
 
 }
 //загрузить функцию  которая будет показывать что стринг
