@@ -1,15 +1,12 @@
 package com.example.myapplication.viewModel
 
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.room.FilmsRepository
 import com.example.myapplication.common.Common
 import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
-import com.example.myapplication.room.FilmsDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MovieTop250ViewModel(application: Application, private var repository: FilmsRepository): ViewModel() {
-
+class MovieTop250ViewModel(): ViewModel() {
+//    private var repository: FilmsRepository
     private val retrofit: RetrofitServices = Common.retrofitService
     var resultMovie = MutableStateFlow<List<Films>?>(null)
     var textSearch : List<Films>? = null
@@ -38,9 +35,9 @@ class MovieTop250ViewModel(application: Application, private var repository: Fil
                 .onSuccess {
                     val startTime = System.currentTimeMillis()
                     val result = retrofit.getMovieList()
-                    val movieDao = FilmsDatabase.getDatabase(application).DaoFilms()
-                    repository = FilmsRepository(movieDao)
-                    resultMovie = repository.readAllData
+//                    val movieDao = FilmsDatabase.getDatabase(application).DaoFilms()
+//                    repository = FilmsRepository(movieDao)
+//                    resultMovie = repository.readAllData
 
                     resultMovie.value = result.items
                     textSearch = result.items

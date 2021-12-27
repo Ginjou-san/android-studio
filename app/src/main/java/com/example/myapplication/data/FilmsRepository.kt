@@ -1,10 +1,4 @@
-package com.example.myapplication.room
-
-import androidx.lifecycle.LiveData
-import com.example.myapplication.model.Films
-import com.example.myapplication.room.DaoFilms
-import com.example.myapplication.room.FilmsId
-import kotlinx.coroutines.flow.MutableStateFlow
+package com.example.myapplication.data
 
 //class FilmsRepository(private val daoFilms: DaoFilms) {
 //

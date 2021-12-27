@@ -5,7 +5,7 @@
     android:id="@+id/fragment_title2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkSlateGrey"
+    android:background="@color/dark_grey"
     tools:context=".TitleTop250">
 
     <ProgressBar
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:text="@string/movie_many"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginEnd="10dp"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginStart="10dp"
         android:text="@string/time_list_text"
         android:textSize="15sp"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginStart="5dp"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginStart="5dp"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -95,6 +95,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="10dp"
+        android:textColor="@color/white"
         android:hint="@string/search"
         android:paddingStart="10dp"
         android:textSize="17sp"
@@ -103,24 +104,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meny_list">
 
-
     </EditText>
 
 
     <ImageButton
         android:id="@+id/search_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
         android:visibility="gone"
-        android:background="@color/darkSlateGrey"
+        android:scaleType="centerCrop"
+        android:background="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/edit_text"
         app:layout_constraintTop_toTopOf="@+id/edit_text"
         app:srcCompat="@drawable/x" />
 
-    <!--    android:visibility="gone"-->
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

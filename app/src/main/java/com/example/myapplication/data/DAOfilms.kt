@@ -1,6 +1,5 @@
-package com.example.myapplication.room
+package com.example.myapplication.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.myapplication.model.Films
 import kotlinx.coroutines.flow.MutableStateFlow
