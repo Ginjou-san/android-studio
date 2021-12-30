@@ -13,13 +13,13 @@ import com.example.myapplication.R
 import com.example.myapplication.model.Films
 import kotlinx.coroutines.selects.select
 
-
-class MyMovieAdapter(private val context: Context,private val movieList: List<Films>, private val listener: OnFilmSelectListener):
+class MyMovieAdapter(private val context: Context, private val listener: OnFilmSelectListener):
     RecyclerView.Adapter<MyMovieAdapter.MyViewHolder>() {
 //В классе MyMovieAdapter создаем переменные, которые будут доступны только в этом классе (private val movieList: List типа Films) и указываем тип возвращаемого значения
 
-    class MyViewHolder (itemView: View, private val listener: OnFilmSelectListener):RecyclerView.ViewHolder(itemView){
+    var movieList: List<Films> = emptyList()
 
+    class MyViewHolder (itemView: View, private val listener: OnFilmSelectListener):RecyclerView.ViewHolder(itemView){
 
         private val rank: TextView = itemView.findViewById(R.id.rank)
         private val title: TextView = itemView.findViewById(R.id.title)
@@ -35,14 +35,25 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
         fun bind(listItem:Films){ //Создам функцию bind c параметром listItem: Films, тут передаём данные с Data class в переменные, а сами переменные уже ссылаются на ID в XML
             Glide.with(image.context).load(listItem.image).into (image)
 
+            itemView.setOnClickListener {
+                listener.onSelect(listItem)
+            }
+
+            starButton.isSelected = listItem.favorite
+
+                starButton.setOnClickListener {
+                    listener.onFavorite(listItem)
+                }
+
             starButton.setOnClickListener {
                 starButton.isSelected = starButton.isSelected.not()
                 if (starButton.isSelected){
-                    listener.onBase(listItem)
+                    listener.insert(listItem)
                 }else{
                     listener.onDelete(listItem)
                 }
             }
+
             rank.text = (rank.context.getString(R.string.rank_text) + " " + listItem.rank.toString())
             title.text = (title.context.getString(R.string.title_text) + " " +  listItem.title)
             fullTitle.text = (fullTitle.context.getString(R.string.fullTitle_text) + " " + listItem.fullTitle)
@@ -52,10 +63,7 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
             itemView.setOnClickListener {
                 listener.onSelect(listItem) }
         }
-
-
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.film_iteam,parent,false)
         //Создаем переменную itemView присваиваем ей LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
@@ -63,7 +71,6 @@ class MyMovieAdapter(private val context: Context,private val movieList: List<Fi
 
     return MyViewHolder(itemView, listener)
     }
-
     override fun getItemCount() = movieList.size //Далее мы переделываем getItemCount() в override fun getItemCount() = movieList.size.
    //получаем подсчёт количества элементов которое нам пришло
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

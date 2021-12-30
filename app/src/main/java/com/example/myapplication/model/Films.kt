@@ -8,7 +8,7 @@ data class Films (
     val year: Int,
     val image: String,
     val crew: String,
-    val imDbRating: Float ,
+    val imDbRating: Float,
     val imDbRatingCount: Int,
-    val favorite: Boolean
+    var favorite: Boolean
 )

@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,28 +20,30 @@ import com.example.myapplication.databinding.FragmentTop250Binding
 import com.example.myapplication.data.FilmsDatabase
 import com.example.myapplication.data.FilmsDatabase.Companion.getDatabase
 import com.example.myapplication.data.FilmsId
+import com.example.myapplication.model.FavoriteList
 import com.example.myapplication.model.Films
 import com.example.myapplication.retrofit.RetrofitServices
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.example.myapplication.viewModel.MovieTop250ViewModel
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class Top250 : Fragment(), OnFilmSelectListener {
     private val top250ViewModel: MovieTop250ViewModel by viewModels()
+    private var _binding: FragmentTop250Binding? = null
+    private val binding get() = _binding!!
     lateinit var mService: RetrofitServices
     lateinit var adapter: MyMovieAdapter
     lateinit var numberTextView: TextView
-    lateinit var endTime : TextView
+    lateinit var endTime: TextView
     lateinit var layoutManager: LinearLayoutManager
     lateinit var rvFilms: RecyclerView
-    private var _binding: FragmentTop250Binding? = null
-    private val binding get() = _binding!!
     lateinit var editText: EditText
     lateinit var searchButton: ImageButton
-     lateinit var  addFilm : FilmsDatabase
-
+    lateinit var addBase: FilmsDatabase
+    lateinit var favoritesButton: MaterialButton
 //    private val viewModel: Top250ViewModel by viewModels()
 
 //    Создаем переменные, и чтобы не объявлять их типа null объявим их через lateinit var
@@ -58,7 +61,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //        listener(ITEM)
 //    }
 //}
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,40 +68,53 @@ class Top250 : Fragment(), OnFilmSelectListener {
     ): View {
 
         //        setupActionBarWithNavController(findNavController(R.id.film_iteam))
-        _binding = FragmentTop250Binding.inflate(inflater, container, false) // указываем с какой xml работаем
+        _binding = FragmentTop250Binding.inflate(
+            inflater,
+            container,
+            false
+        ) // указываем с какой xml работаем
         return binding.root
     }//inflater - указывает с какой конткретно XML мы работаем
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.visibility = ProgressBar.VISIBLE
 
-        addFilm = context?.let { getDatabase(it) }!!
+        addBase = context?.let { getDatabase(it) }!!
+        favoritesButton = view.findViewById(R.id.favorites)
         searchButton = view.findViewById(R.id.search_button)
-        editText =  view.findViewById(R.id.edit_text)
+        editText = view.findViewById(R.id.edit_text)
         rvFilms = view.findViewById(R.id.list) //указываем что переменная rvFilms равна ID list
         numberTextView = view.findViewById(R.id.number_list)
         endTime = view.findViewById(R.id.time_list)
-        mService = Common.retrofitService       //В методе onViewCreated мы к RetrofitServices присваиваем Common.retrofitServices.
-        rvFilms.setHasFixedSize (true)  //recyclerView мы присоединяем  setHasFixedSize(true) благодаря этому методу мы сможем оптимизировать свой список
+        mService =
+            Common.retrofitService       //В методе onViewCreated мы к RetrofitServices присваиваем Common.retrofitServices.
+        rvFilms.setHasFixedSize(true)  //recyclerView мы присоединяем  setHasFixedSize(true) благодаря этому методу мы сможем оптимизировать свой список
         layoutManager = LinearLayoutManager(context)
-        rvFilms.layoutManager = layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
+        rvFilms.layoutManager =
+            layoutManager   // после мы к нашему layoutManager присваиваем LinearLayoutManager(context).
 
-        viewLifecycleOwner.lifecycleScope.launch{
+        adapter = MyMovieAdapter(
+            requireContext(), this@Top250
+        ) //requireContext возвращает ненулевое значение
+        rvFilms.adapter = adapter
+
+        viewLifecycleOwner.lifecycleScope.launch {//viewLifecycleOwner - нужден для инициализации самой корутины.lifecycleScope - привязываем корутину к жизненнему циклу фрагмента.
             top250ViewModel.resultMovie.collect {
-                if (it != null){
-                adapter = MyMovieAdapter(requireContext(), it,this@Top250) //requireContext возвращает ненулевое значение
-                rvFilms.adapter = adapter
+                if (it != null) {
+                    adapter.movieList = it
+                    adapter.notifyDataSetChanged()//уведомляю что набор данных изменился
 
                     progressBar.visibility = ProgressBar.INVISIBLE
 
-                    viewLifecycleOwner.lifecycleScope.launch{
+                    viewLifecycleOwner.lifecycleScope.launch {
                         top250ViewModel.numberList.collect {
                             numberTextView.text = it.toString()
                         }
                     }
-                    viewLifecycleOwner.lifecycleScope.launch{
+                    viewLifecycleOwner.lifecycleScope.launch {
                         top250ViewModel.timeList.collect {
                             endTime.text = it.toString()
                         }
@@ -110,7 +125,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
         searchButton.setOnClickListener {
             editText.setText("")
         }
-        editText.addTextChangedListener(object: TextWatcher {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -122,7 +137,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
             }
         })
     }
-
     private fun updateSearch() {
         val s = editText.text.toString()
 
@@ -145,7 +159,6 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //            .onFailure { e ->
 //                Log.e("Response" , e.message,e)
 //            }
-
 //        mService.getMovieList().enqueue(object : Callback<Items> { // к mService добавляем метод getMovieList .enqueue object: Callback<MutableList>
 //            override fun onFailure(call: Call<Items>, t: Throwable) {
 //            }
@@ -158,32 +171,67 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //            }
 //        })
 //    }
-
-    override fun onSelect (films: Films){//показываем что она принимает
+    override fun onSelect(films: Films) {//показываем что она принимает
         val bundle = Bundle()
         bundle.putSerializable("d", films.id) // засовываем в бандл ключ, и передаём ID
-        findNavController().navigate(R.id.action_top250_layout_to_title_250, bundle)// указываем переход с одного фрагмента на другой
-        Toast.makeText(requireContext(),films.fullTitle,Toast.LENGTH_LONG).show()  // фрагмент который будет высвечиваться при открытие второй страницы
+        findNavController().navigate(
+            R.id.action_top250_layout_to_title_250,
+            bundle
+        )// указываем переход с одного фрагмента на другой
+        Toast.makeText(requireContext(), films.fullTitle, Toast.LENGTH_LONG)
+            .show()  // фрагмент который будет высвечиваться при открытие второй страницы
 //        Log.i("test1", films.toString())
-
     }
-
     override fun onBase(film: Films) {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            withContext(Dispatchers.IO) {
-                addFilm.daoFilms().insert(FilmsId(film.id))
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {  //запускаеться как только содаеться
+            withContext(Dispatchers.IO) {                     //Передаем контекст  корутине. В Dispatchers указываем в каком потоке будет выполняеться.
+                addBase.daoFilms().insert(FilmsId(film.id))   //возвращаем в dao FilmsId
             }
         }
+    }
+
+    override fun onFavorite(film: Films) {
+        top250ViewModel.onFavorite(film)
+    }
+
+    override fun insert(film: Films){
+        top250ViewModel.insert(film)
     }
 
     override fun onDelete(film: Films) {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            withContext(Dispatchers.IO) {
-                addFilm.daoFilms().delete(FilmsId(film.id))
-            }
-        }
+        top250ViewModel.delete(film)
     }
 }
+//    override fun onFavorigte(film: Films) {
+//        viewLifecycleOwner.lifecycleScope.launch {//запускаеться как только к ней обратимся
+//            withContext(Dispatchers.IO) {
+//                val loadFilm: List<FavoriteList> = addBase.daoFilms().load(FilmsId(film.id))
+//                top250ViewModel.favorite(loadFilm)
+//
+//            }
+//        }
+//    }
+
+
+//override fun onDelete(film: Films) {
+//    viewLifecycleOwner.lifecycleScope.launchWhenCreated {//запускаеться как только содаеться
+//        withContext(Dispatchers.IO) {
+//            addBase.daoFilms().delete(FilmsId(film.id))
+//        }
+//    }
+//}
+//По умолчанию построитель корутин launch создает и сразу же запускает корутину.
+//whenCreated - MSDN. Назначение: в этом атрибуте хранится значение времени создания всех объектов
+
+//withContext(context) : переключает контекст текущей сопрограммы, когда выполняется данный блок, сопрограмма переключается обратно в предыдущий контекст.
+
+// launch — метод для асинхронного запуска корутины. Соответственно, метод longRunningMethod() запустится сразу же.
+// Метод возвращает экземпляр класса Job. Этот объект можно использовать для того, чтобы, например, отменить корутину — job.cancel().
+// Альтернатива — метод asunc(). Он вернет Deferred<T> — отложенную корутину, которую можно запустить позднее.
+
+// Dispatchers.IO — один из параметров метода launch(). Здесь указывается диспетчер для созданной корутины.
+// Конкретно диспетчер Dispatchers.IO используется для фоновых задач, не блокирующих основной поток.
+// Если указать Dispatchers.Main, то корутина будет выполняться в основном потоке.
 
 //getString
 //Layout Manager — это вещь, которая отвечает позиционирование View компонентов,
@@ -215,6 +263,7 @@ class Top250 : Fragment(), OnFilmSelectListener {
 //выполнение которого может быть приостановленно,
 //что бы выполнить какой либо другой участок кода,
 //а затем вернуться и довыполнить тот который был приостановлен.
+
 
 
 //линейный / реактивный подход

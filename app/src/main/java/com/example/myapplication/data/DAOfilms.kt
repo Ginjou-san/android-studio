@@ -1,21 +1,19 @@
 package com.example.myapplication.data
 
 import androidx.room.*
-import com.example.myapplication.model.Films
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Dao
 interface DaoFilms {
 
     @Insert( onConflict = OnConflictStrategy.IGNORE)//проверка на то что бы не было одинаковых фильмов
-     fun insert(film: FilmsId)
+     fun insert(film: FilmsId)// должны передать FilmsId, иначе не будет работать
 
+    @Query("SELECT * FROM FILMS_TABLE ORDER BY id ASC")
+    fun load():List<FilmsId>
 
-//    @Query("SELECT * FROM FILMS_TABLE ORDER BY id ASC")//
-//    fun readAllData(): List<Films>?
 
     @Delete
-    fun delete(Film: FilmsId)
+    fun delete(filmsId: FilmsId)
 
 }
 //загрузить функцию  которая будет показывать что стринг

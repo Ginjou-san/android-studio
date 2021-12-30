@@ -12,16 +12,16 @@ import androidx.room.RoomDatabase
 
     companion object {
         private var INSTANCE: FilmsDatabase? = null
-        fun getDatabase(context: Context): FilmsDatabase {
+        fun getDatabase(context: Context? = null): FilmsDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
-                    context,
-                    FilmsDatabase::class.java,
-                    "film_test")
+                    context!!, FilmsDatabase::class.java, "film_test")
                     .build()
             }
             return INSTANCE as FilmsDatabase
         }
+
+
     }
 }
 //Аннотацией Database помечаем основной класс по работе с базой данных.

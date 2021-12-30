@@ -121,19 +121,28 @@
         app:srcCompat="@drawable/x" />
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text">
+        app:layout_constraintTop_toBottomOf="@+id/favorites">
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favorites"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/dark_red"
+        android:text="@string/button_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
+
+<!--    app:icon="@drawable/star_like"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
